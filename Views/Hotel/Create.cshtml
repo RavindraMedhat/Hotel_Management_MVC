@@ -1,0 +1,113 @@
+﻿@model Hotel_Management_MVC.Models.HotelTBCreatModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>HotelTB</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Hotel_Name" class="control-label"></label>
+                <input asp-for="Hotel_Name" class="form-control" />
+                <span asp-validation-for="Hotel_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="photos">Photo:</label>
+                <div class="custom-file">
+                    @*<input class="form-control custom-file-input" type="file" data-val="true" data-val-required="The Image_URl field is required." id="photos" name="photos" />*@
+                    <input asp-for="Photos" class="form-control" />
+                    @*<label id="pp" class="custom-file-label" for="photos">Choose Photo .....</label>*@
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hotel_Description" class="control-label"></label>
+                <input asp-for="Hotel_Description" class="form-control" />
+                <span asp-validation-for="Hotel_Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hotel_map_coordinate" class="control-label"></label>
+                <input asp-for="Hotel_map_coordinate" class="form-control" />
+                <span asp-validation-for="Hotel_map_coordinate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact_No" class="control-label"></label>
+                <input asp-for="Contact_No" class="form-control" />
+                <span asp-validation-for="Contact_No" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email_Adderss" class="control-label"></label>
+                <input asp-for="Email_Adderss" class="form-control" />
+                <span asp-validation-for="Email_Adderss" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contect_Person" class="control-label"></label>
+                <input asp-for="Contect_Person" class="form-control" />
+                <span asp-validation-for="Contect_Person" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Standard_check_In_Time" class="control-label"></label>
+                <input asp-for="Standard_check_In_Time" class="form-control" />
+                <span asp-validation-for="Standard_check_In_Time" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Standard_check_out_Time" class="control-label"></label>
+                <input asp-for="Standard_check_out_Time" class="form-control" />
+                <span asp-validation-for="Standard_check_out_Time" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active_Flag" /> @Html.DisplayNameFor(model => model.Active_Flag)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Delete_Flag" /> @Html.DisplayNameFor(model => model.Delete_Flag)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="sortedfield" class="control-label"></label>
+                <input asp-for="sortedfield" class="form-control" />
+                <span asp-validation-for="sortedfield" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".custom-file-input").on("change", function () {
+                var fileLabel = $(this).next(".custom-file-label");
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + " files selected");
+                } else if (files.length == 1) {
+                    fileLabel.html(files[0].name)
+                }
+
+
+                //$(this).next(".custom-file-label").html(fileName);
+                //document.getElementById("#pp").innerHTML = fileName;
+            });
+        });
+    </script>
+}

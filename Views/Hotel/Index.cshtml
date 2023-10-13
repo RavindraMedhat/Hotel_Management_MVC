@@ -1,0 +1,38 @@
+﻿
+@model IEnumerable<Hotel_Management_MVC.ViewModels.HotelViewModelForIndex>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewBag.Title = "Hotels";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Hotels</h1>
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var hotel in Model)
+    {
+        var photopath = "" + (hotel.Image_URl[0]);
+
+        <div class="col-md-4">
+            <!-- Use col-md-4 class to create three columns in medium-sized screens -->
+            <div class="card m-3">
+                <div class="card-header">
+                    <h3>@hotel.Hotel_Name</h3>
+                </div>
+                <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
+                <div class="card-footer text-center">
+                    <a asp-controller="HotelTBs" asp-action="details" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">View</a>
+                    <a asp-controller="HotelTBs" asp-action="edit" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">Edit</a>
+                    <a asp-controller="HotelTBs" asp-action="delete" asp-route-id="@hotel.Hotel_ID" class="btn btn-danger m-1">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
