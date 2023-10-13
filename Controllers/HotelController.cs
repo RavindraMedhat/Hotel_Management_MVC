@@ -58,44 +58,38 @@ namespace Hotel_Management_MVC.Controllers
         {
             try
             {
-                //using(var httpClient = new HttpClient())
-                //{
-                //    var jsondata = JsonConvert.SerializeObject(collection);
-                //    var contentdata = new StringContent(jsondata, Encoding.UTF8, @"Application/json");
-                //    using(var response=await httpClient.PostAsync(API_HOTEL, contentdata))
-                //    {
-                //        var apiresponse = await response.Content.ReadAsStringAsync();
-                //    }
-                //}
+
                 using (var httpClient = new HttpClient())
                 {
                     using (var form = new MultipartFormDataContent())
                     {
-                        // Add your form fields as string content
+                        // Add your model properties as content fields
                         form.Add(new StringContent(collection.Hotel_Name), "Hotel_Name");
                         form.Add(new StringContent(collection.Hotel_Description), "Hotel_Description");
-                        form.Add(new StringContent(collection.Active_Flag.ToString()), "Active_Flag");
+                        form.Add(new StringContent(collection.Hotel_map_coordinate), "Hotel_map_coordinate");
                         form.Add(new StringContent(collection.Address), "Address");
                         form.Add(new StringContent(collection.Contact_No), "Contact_No");
-                        form.Add(new StringContent(collection.Contect_Person), "Contect_Person");
-                        form.Add(new StringContent(collection.Delete_Flag.ToString()), "Delete_Flag");
-                        form.Add(new StringContent(collection.Hotel_map_coordinate), "Hotel_map_coordinate");
                         form.Add(new StringContent(collection.Email_Adderss), "Email_Adderss");
+                        form.Add(new StringContent(collection.Contect_Person), "Contect_Person");
                         form.Add(new StringContent(collection.Standard_check_In_Time), "Standard_check_In_Time");
                         form.Add(new StringContent(collection.Standard_check_out_Time), "Standard_check_out_Time");
+                        form.Add(new StringContent(collection.Active_Flag.ToString()), "Active_Flag");
+                        form.Add(new StringContent(collection.Delete_Flag.ToString()), "Delete_Flag");
                         form.Add(new StringContent(collection.sortedfield.ToString()), "sortedfield");
-                        // Add other fields as needed
 
                         // Add image files
-                        foreach (var file in collection.Photos)
+                        if (collection.Photos != null && collection.Photos.Count > 0)
                         {
-                            var streamContent = new StreamContent(file.OpenReadStream());
-                            streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                            foreach (var photo in collection.Photos)
                             {
-                                Name = "Photos",
-                                FileName = file.FileName
-                            };
-                            form.Add(streamContent, "Photos", file.FileName);
+                                var streamContent = new StreamContent(photo.OpenReadStream());
+                                streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                                {
+                                    Name = "Photos",
+                                    FileName = photo.FileName
+                                };
+                                form.Add(streamContent, "Photos", photo.FileName);
+                            }
                         }
 
                         // Send the request
@@ -103,11 +97,14 @@ namespace Hotel_Management_MVC.Controllers
                         {
                             if (response.IsSuccessStatusCode)
                             {
-                                // Handle a successful response
+                                // Request was successful, handle the response here
+                                var responseBody = await response.Content.ReadAsStringAsync();
+                                Console.WriteLine("Response: " + responseBody);
                             }
                             else
                             {
                                 // Handle an error response
+                                Console.WriteLine("Error: " + response.StatusCode);
                             }
                         }
                     }
