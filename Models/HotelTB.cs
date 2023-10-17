@@ -55,7 +55,7 @@ namespace Hotel_Management_MVC.Models
         public bool Delete_Flag { get; set; }
         
         [Required]
-        public float Priority { get; set; }
+        public float sortedfield { get; set; }
 
     }
 }

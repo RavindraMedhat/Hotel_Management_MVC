@@ -31,18 +31,21 @@
                 <input asp-for="Hotel_Description" class="form-control" />
                 <span asp-validation-for="Hotel_Description" class="text-danger"></span>
             </div>
+
+            <!-- Replace Map Coordinate with Map field -->
             <div class="form-group">
-                <label asp-for="Hotel_map_coordinate" class="control-label"></label>
-                <input asp-for="Hotel_map_coordinate" class="form-control" />
-                <span asp-validation-for="Hotel_map_coordinate" class="text-danger"></span>
+                <label class="font-weight-bold">Select Map Location:</label>
+                <div id="map" style="height: 400px;"></div>
+                <input asp-for="Hotel_map_coordinate" id="map-coordinate-input" class="form-control" style="display: none;" />
             </div>
+
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Contact_No" class="control-label"></label>
+                <label asp-for="Contact_No" class ="control-label"></label>
                 <input asp-for="Contact_No" class="form-control" />
                 <span asp-validation-for="Contact_No" class="text-danger"></span>
             </div>
@@ -94,20 +97,36 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function () {
-            $(".custom-file-input").on("change", function () {
-                var fileLabel = $(this).next(".custom-file-label");
-                var files = $(this)[0].files;
-                if (files.length > 1) {
-                    fileLabel.html(files.length + " files selected");
-                } else if (files.length == 1) {
-                    fileLabel.html(files[0].name)
-                }
-
-
-                //$(this).next(".custom-file-label").html(fileName);
-                //document.getElementById("#pp").innerHTML = fileName;
+        // Initialize the map
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 21.196060, lng: 72.904547 }, // Set initial map center coordinates
+                zoom: 15 // Set the initial zoom level
             });
-        });
+
+            // Initialize the marker
+            var marker = new google.maps.Marker({
+                position: { lat: 21.196060, lng: 72.904547 },
+                map: map,
+                draggable: true // Allow marker to be dragged
+            });
+
+            // Update input field when marker is dragged
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                document.getElementById('map-coordinate-input').value = lat + ',' + lng;
+            });
+
+            // Allow users to click on the map to place the marker
+            google.maps.event.addListener(map, 'click', function (event) {
+                marker.setPosition(event.latLng);
+                document.getElementById('map-coordinate-input').value = event.latLng.lat() + ',' + event.latLng.lng();
+            });
+        }
+
+        // Call the initMap function when the page loads
+        google.maps.event.addDomListener(window, 'load', initMap);
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 }

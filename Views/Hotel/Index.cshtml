@@ -28,9 +28,9 @@
                 </div>
                 <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
                 <div class="card-footer text-center">
-                    <a asp-controller="HotelTBs" asp-action="details" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">View</a>
-                    <a asp-controller="HotelTBs" asp-action="edit" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">Edit</a>
-                    <a asp-controller="HotelTBs" asp-action="delete" asp-route-id="@hotel.Hotel_ID" class="btn btn-danger m-1">Delete</a>
+                    <a asp-controller="Hotel" asp-action="details" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">View</a>
+                    <a asp-controller="Hotel" asp-action="edit" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">Edit</a>
+                    <a asp-controller="Hotel" asp-action="delete" asp-route-id="@hotel.Hotel_ID" class="btn btn-danger m-1">Delete</a>
                 </div>
             </div>
         </div>

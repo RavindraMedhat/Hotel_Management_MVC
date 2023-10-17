@@ -39,9 +39,20 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            HotelViewModelForDetails hotelViewModelForDetails;
+
+            using(var httpclient=new HttpClient())
+            {
+                using(var response=await httpclient.GetAsync(API_HOTEL + "/" + id))
+                {
+                    var apiresponser = await response.Content.ReadAsStringAsync();
+                    hotelViewModelForDetails = JsonConvert.DeserializeObject<HotelViewModelForDetails>(apiresponser);
+                }
+            }
+
+            return View(hotelViewModelForDetails);
         }
 
         // GET: HotelController/Create
@@ -119,18 +130,40 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            HotelViewModelForDetails hotelViewModelForDetails;
+
+            using (var httpclient = new HttpClient())
+            {
+                using (var response = await httpclient.GetAsync(API_HOTEL + "/" + id))
+                {
+                    var apiresponser = await response.Content.ReadAsStringAsync();
+                    hotelViewModelForDetails = JsonConvert.DeserializeObject<HotelViewModelForDetails>(apiresponser);
+                }
+            }
+
+            return View(hotelViewModelForDetails);
         }
 
         // POST: HotelController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, HotelTB collection)
         {
             try
             {
+                using(var httpClient=new HttpClient())
+                {
+                    var jsondata = JsonConvert.SerializeObject(collection);
+
+                    var contentdata = new StringContent(jsondata, Encoding.UTF8, @"Application/json");
+
+                    using(var response=await httpClient.PutAsync(API_HOTEL + "/" + id, contentdata))
+                    {
+                        var apiresponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -140,18 +173,36 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            HotelViewModelForDetails hotelViewModelForDetails;
+
+            using (var httpclient = new HttpClient())
+            {
+                using (var response = await httpclient.GetAsync(API_HOTEL + "/" + id))
+                {
+                    var apiresponser = await response.Content.ReadAsStringAsync();
+                    hotelViewModelForDetails = JsonConvert.DeserializeObject<HotelViewModelForDetails>(apiresponser);
+                }
+            }
+
+            return View(hotelViewModelForDetails);
         }
 
         // POST: HotelController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                using(var httpClient=new HttpClient())
+                {
+                    using(var response= await httpClient.DeleteAsync(API_HOTEL + "/" + id))
+                    {
+                        var apiresponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -22,6 +22,6 @@ namespace Hotel_Management_MVC.ViewModels
         [Required]
         public bool Delete_Flag { get; set; }
         [Required]
-        public float Priority { get; set; }
+        public float SortedFiled { get; set; }
     }
 }

@@ -1,0 +1,112 @@
+﻿@model Hotel_Management_MVC.ViewModels.HotelViewModelForDetails
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center mt-4">Delete Hotel</h1>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h2 class="text-center">@Model.Hotel_Name</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <div id="imageSlider" class="slick-slider">
+                        @foreach (var image in Model.images)
+                        {
+                            <div><img class="img-fluid" style="height:800px" src="@image" alt="Hotel Image" /></div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Hotel ID:</dt>
+                        <dd class="col-sm-8">@Model.Hotel_ID</dd>
+
+                        <dt class="col-sm-4">Description:</dt>
+                        <dd class="col-sm-8">@Model.Hotel_Description</dd>
+
+                        <dt class="col-sm-4">Map Coordinate:</dt>
+                        <dd class="col-sm-8">@Model.Hotel_map_coordinate</dd>
+
+                        <dt class="col-sm-4">Address:</dt>
+                        <dd class="col-sm-8">@Model.Address</dd>
+
+                        <dt class="col-sm-4">Contact No:</dt>
+                        <dd class="col-sm-8">@Model.Contact_No</dd>
+
+                        <dt class="col-sm-4">Email Address:</dt>
+                        <dd class="col-sm-8">@Model.Email_Adderss</dd>
+
+                        <dt class="col-sm-4">Contact Person:</dt>
+                        <dd class="col-sm-8">@Model.Contect_Person</dd>
+
+                        <dt class="col-sm-4">Check-In Time:</dt>
+                        <dd class="col-sm-8">@Model.Standard_check_In_Time</dd>
+
+                        <dt class="col-sm-4">Check-Out Time:</dt>
+                        <dd class="col-sm-8">@Model.Standard_check_out_Time</dd>
+
+                        <dt class="col-sm-4">Active Flag:</dt>
+                        <dd class="col-sm-8">@Model.Active_Flag</dd>
+
+                        <dt class="col-sm-4">Delete Flag:</dt>
+                        <dd class="col-sm-8">@Model.Delete_Flag</dd>
+
+                        <dt class="col-sm-4">sortedfield:</dt>
+                        <dd class="col-sm-8">@Model.sortedfield</dd>
+
+
+                        <form method="post" asp-action="Delete">
+                            <input type="submit" value="Delete" class="btn btn-danger" /> |
+                            <a asp-action="Index">Back to List</a>
+                        </form>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model.Hotel_ID" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#imageSlider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".custom-file-input").on("change", function () {
+                var fileLabel = $(this).next(".custom-file-label");
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + " files selected");
+                } else if (files.length == 1) {
+                    fileLabel.html(files[0].name)
+                }
+            });
+        });
+    </script>
+}
