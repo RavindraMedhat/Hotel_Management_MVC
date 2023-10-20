@@ -76,14 +76,14 @@
             <!-- Standard Check-In Time -->
             <div class="form-group">
                 <label asp-for="Standard_check_In_Time" class="control-label"></label>
-                <input asp-for="Standard_check_In_Time" class="form-control" />
+                <input asp-for="Standard_check_In_Time" type="time" class="form-control" />
                 <span asp-validation-for="Standard_check_In_Time" class="text-danger"></span>
             </div>
 
             <!-- Standard Check-Out Time -->
             <div class="form-group">
                 <label asp-for="Standard_check_out_Time" class="control-label"></label>
-                <input asp-for="Standard_check_out_Time" class="form-control" />
+                <input asp-for="Standard_check_out_Time" type="time" class="form-control" />
                 <span asp-validation-for="Standard_check_out_Time" class="text-danger"></span>
             </div>
 
@@ -153,6 +153,68 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initMap);
+
+
+
+
+//        function initMap() {
+//    map = new google.maps.Map(document.getElementById('map'), {
+//        center: { lat: 21.196060, lng: 72.904547 },
+//        zoom: 15
+//    });
+
+//    marker = new google.maps.Marker({
+//        position: { lat: 21.196060, lng: 72.904547 },
+//        map: map,
+//        draggable: true
+//    });
+
+//    var input = document.getElementById('map-search-input');
+//    searchBox = new google.maps.places.SearchBox(input);
+
+//    // Bias the search results to the map's viewport.
+//    map.addListener('bounds_changed', function () {
+//        searchBox.setBounds(map.getBounds());
+//    });
+
+//    searchBox.addListener('places_changed', function () {
+//        var places = searchBox.getPlaces();
+
+//        if (places.length === 0) {
+//            return;
+//        }
+
+//        // Update the map and marker with the selected place
+//        var place = places[0];
+//        map.setCenter(place.geometry.location);
+//        marker.setPosition(place.geometry.location);
+
+//        // Update the hidden input field with the new coordinates
+//        var coordinates = { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() };
+//        var jsonCoordinates = JSON.stringify(coordinates);
+//        document.getElementById('map-coordinate-input').value = jsonCoordinates;
+//    });
+
+//    google.maps.event.addListener(marker, 'dragend', function (event) {
+//        var lat = event.latLng.lat();
+//        var lng = event.latLng.lng();
+//        var coordinates = { lat: lat, lng: lng };
+//        var jsonCoordinates = JSON.stringify(coordinates);
+
+//        document.getElementById('map-coordinate-input').value = jsonCoordinates;
+//    });
+
+//    google.maps.event.addListener(map, 'click', function (event) {
+//        marker.setPosition(event.latLng);
+//        var lat = event.latLng.lat();
+//        var lng = event.latLng.lng();
+//        var coordinates = { lat: lat, lng: lng };
+//        var jsonCoordinates = JSON.stringify(coordinates);
+
+//        document.getElementById('map-coordinate-input').value = jsonCoordinates;
+//    });
+//}
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv2kE8VnPyGVoH5VpEwXr98XXwBWppVEk&callback=initMap" async defer></script>
 }

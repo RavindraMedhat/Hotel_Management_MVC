@@ -5,15 +5,17 @@
 @{
     ViewBag.Title = "Hotels";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <div class="row">
     <div class="col-md-12">
-        <h1>Hotels</h1>
+        <h1><i class="fas fa-hotel"></i> Hotels</h1>
         <p>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
         </p>
     </div>
 </div>
+
 
 <div class="row">
     @foreach (var hotel in Model)
@@ -28,9 +30,9 @@
                 </div>
                 <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
                 <div class="card-footer text-center">
-                    <a asp-controller="Hotel" asp-action="details" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">View</a>
-                    <a asp-controller="Hotel" asp-action="edit" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1">Edit</a>
-                    <a asp-controller="Hotel" asp-action="delete" asp-route-id="@hotel.Hotel_ID" class="btn btn-danger m-1">Delete</a>
+                    <a asp-controller="Hotel" asp-action="details" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i>  View</a>
+                    <a asp-controller="Hotel" asp-action="edit" asp-route-id="@hotel.Hotel_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i>  Edit</a>
+                    <a asp-controller="Hotel" asp-action="delete" asp-route-id="@hotel.Hotel_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i>  Delete</a>
                 </div>
             </div>
         </div>

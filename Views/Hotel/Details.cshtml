@@ -31,7 +31,7 @@
                         <dd class="col-sm-8">@Model.Hotel_Description</dd>
 
                         @*<dt class="col-sm-4">Map Coordinate:</dt>
-                        <dd class="col-sm-8">@Model.Hotel_map_coordinate</dd>*@
+        <dd class="col-sm-8">@Model.Hotel_map_coordinate</dd>*@
 
                         <dt class="col-sm-4">Address:</dt>
                         <dd class="col-sm-8">@Model.Address</dd>
@@ -59,6 +59,38 @@
 
                         <dt class="col-sm-4">sortedfield:</dt>
                         <dd class="col-sm-8">@Model.sortedfield</dd>
+                        <form method="post" asp-controller="ImageMaster" asp-action="Create" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="Image_URl">Photo:</label>
+                                <div class="custom-file">
+                                    <input class="form-control custom-file-input" type="file" data-val="true" data-val-required="The Image_URl field is required." id="Image_URl" name="Image_URl" />
+                                    <label id="pp" class="custom-file-label" for="Image_URl">Choose Photo .....</label>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Reference_ID" name="Reference_ID" value="@Model.Hotel_ID" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="ReferenceTB_Name" name="ReferenceTB_Name" value="Hotel" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Active_Flag" name="Active_Flag" value="true" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Delete_Flag" name="Delete_Flag" value="false" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="SortedFiled" name="SortedFiled" value="99" />
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
                     </dl>
                     <div id="map" style="height: 400px;"></div>
                 </div>
