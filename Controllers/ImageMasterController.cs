@@ -85,7 +85,7 @@ namespace Hotel_Management_MVC.Controllers
                         }
                     }
                 }
-                return RedirectToAction(actionName:"Details" , controllerName:"Hotel", new { id=collection.Reference_ID});
+                return RedirectToAction(actionName:"Details" , controllerName: collection.ReferenceTB_Name , new { id=collection.Reference_ID});
             }
             catch
             {
@@ -115,7 +115,7 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: ImageMasterController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             return View();
         }

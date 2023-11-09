@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_Management_MVC.Controllers
@@ -40,9 +41,20 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelBranchController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+
+            HotelBranchViewModelForDetails HotelBranchsdetail;
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH+"/"+id))
+                {
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    HotelBranchsdetail = JsonConvert.DeserializeObject<HotelBranchViewModelForDetails>(apiresponse);
+                }
+            }
+            return View(HotelBranchsdetail);
         }
 
         // GET: HotelBranchController/Create
@@ -133,18 +145,51 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelBranchController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            List<HotelNameAndIdViewModel> Hotels = new List<HotelNameAndIdViewModel>();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var resonse = await httpClient.GetAsync(@"http://localhost:17312/api/HotelTBs/ForDropDown"))
+                {
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    Hotels = JsonConvert.DeserializeObject<List<HotelNameAndIdViewModel>>(apiresponse);
+                }
+            }
+
+            HotelBranchViewModelForDetails HotelBranchsedit;
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH + "/" + id))
+                {
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    HotelBranchsedit = JsonConvert.DeserializeObject<HotelBranchViewModelForDetails>(apiresponse);
+                }
+            }
+            ViewBag.Hotel_ID = new SelectList(Hotels, "Hotel_ID", "Hotel_Name", HotelBranchsedit.Hotel_ID);
+            return View(HotelBranchsedit);
         }
 
         // POST: HotelBranchController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, HotelBranchTB collection)
         {
             try
             {
+                using(var httpclient=new HttpClient())
+                {
+                    var jsondata = JsonConvert.SerializeObject(collection);
+
+                    var contentdata = new StringContent(jsondata, Encoding.UTF8, @"Application/json");
+
+                    using(var response=await httpclient.PutAsync(API_HOTEL_BRANCH + "/" + id, contentdata))
+                    {
+                        var apiresponse=await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -154,18 +199,35 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelBranchController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            HotelBranchViewModelForDetails HotelBranchsdel;
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH + "/" + id))
+                {
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    HotelBranchsdel = JsonConvert.DeserializeObject<HotelBranchViewModelForDetails>(apiresponse);
+                }
+            }
+            return View(HotelBranchsdel);
         }
 
         // POST: HotelBranchController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             try
             {
+                using(var httpclient=new HttpClient())
+                {
+                    using(var response= await httpclient.DeleteAsync(API_HOTEL_BRANCH+"/"+id))
+                    {
+                        var apiresponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

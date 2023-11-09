@@ -1,0 +1,153 @@
+﻿@model Hotel_Management_MVC.ViewModels.HotelBranchViewModelForDetails
+
+@{
+    ViewData["Title"] = "Hotel Branch Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center mt-4">Hotel Branch Details</h1>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">@Model.Hotel_Name - @Model.Branch_Name</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <div id="imageSlider" class="slick-slider">
+                        @foreach (var image in Model.images)
+                        {
+                            <div><img class="img-fluid" style="height:800px" src="@image" alt="Hotel Branch Image" /></div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Branch ID:</dt>
+                        <dd class="col-sm-8">@Model.Branch_ID</dd>
+
+                        <dt class="col-sm-4">Description:</dt>
+                        <dd class="col-sm-8">@Model.Branch_Description</dd>
+
+                        @*<dt class="col-sm-4">Map Coordinate:</dt>
+            <dd class="col-sm-8">@Model.Branch_map_coordinate</dd>*@
+
+                        <dt class="col-sm-4">Address:</dt>
+                        <dd class="col-sm-8">@Model.Branch_Address</dd>
+
+                        <dt class="col-sm-4">Contact No:</dt>
+                        <dd class="col-sm-8">@Model.Branch_Contact_No</dd>
+
+                        <dt class="col-sm-4">Email Address:</dt>
+                        <dd class="col-sm-8">@Model.Branch_Email_Adderss</dd>
+
+                        <dt class="col-sm-4">Contact Person:</dt>
+                        <dd class="col-sm-8">@Model.Branch_Contect_Person</dd>
+
+                        <dt class="col-sm-4">Active Flag:</dt>
+                        <dd class="col-sm-8">@Model.Active_Flag</dd>
+
+                        <dt class="col-sm-4">Delete Flag:</dt>
+                        <dd class="col-sm-8">@Model.Delete_Flag</dd>
+
+                        <dt class="col-sm-4">Sorted Field:</dt>
+                        <dd class="col-sm-8">@Model.sortedfield</dd>
+                        <form method="post" asp-controller="ImageMaster" asp-action="Create" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="Image_URl">Photo:</label>
+                                <div class="custom-file">
+                                    <input class="form-control custom-file-input" type="file" data-val="true" data-val-required="The Image_URl field is required." id="Image_URl" name="Image_URl" />
+                                    <label id="pp" class="custom-file-label" for="Image_URl">Choose Photo .....</label>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Reference_ID" name="Reference_ID" value="@Model.Branch_ID" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="ReferenceTB_Name" name="ReferenceTB_Name" value="HotelBranch" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Active_Flag" name="Active_Flag" value="true" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="Delete_Flag" name="Delete_Flag" value="false" />
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" id="SortedFiled" name="SortedFiled" value="99" />
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </dl>
+                    <div id="map" style="height: 400px;"></div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model.Branch_ID" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#imageSlider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 3000
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".custom-file-input").on("change", function () {
+                var fileLabel = $(this).next(".custom-file-label");
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + " files selected");
+                } else if (files.length == 1) {
+                    fileLabel.html(files[0].name)
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function initMap() {
+            var coordinates = JSON.parse('@Html.Raw(Model.Branch_map_coordinate)');
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: coordinates.lat, lng: coordinates.lng },
+                zoom: 15
+            });
+
+            var marker = new google.maps.Marker({
+                position: { lat: coordinates.lat, lng: coordinates.lng },
+                map: map,
+                title: '@Model.Hotel_Name - @Model.Branch_Name'
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv2kE8VnPyGVoH5VpEwXr98XXwBWppVEk&callback=initMap" async defer></script>
+}
