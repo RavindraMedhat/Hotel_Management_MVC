@@ -1,4 +1,5 @@
 ﻿using Hotel_Management_MVC.Models;
+using Hotel_Management_MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,13 +25,13 @@ namespace Hotel_Management_MVC.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            List<RoomCategoryTB> roomCategories;
+            List<RoomCategoryTBForDetail> roomCategories;
             using(var httpclient=new HttpClient())
             {
                 using(var response=await httpclient.GetAsync(API_URL_ROOMCAT))
                 {
                     var apiresponse = await response.Content.ReadAsStringAsync();
-                    roomCategories = JsonConvert.DeserializeObject<List<RoomCategoryTB>>(apiresponse);
+                    roomCategories = JsonConvert.DeserializeObject<List<RoomCategoryTBForDetail>>(apiresponse);
                 }
             }
             return View(roomCategories);
@@ -39,13 +40,13 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            RoomCategoryTB roomCategories;
+            RoomCategoryTBForDetail roomCategories;
             using (var httpclient = new HttpClient())
             {
                 using (var response = await httpclient.GetAsync(API_URL_ROOMCAT + "/" + id))
                 {
                     var apiresponse = await response.Content.ReadAsStringAsync();
-                    roomCategories = JsonConvert.DeserializeObject<RoomCategoryTB>(apiresponse);
+                    roomCategories = JsonConvert.DeserializeObject<RoomCategoryTBForDetail>(apiresponse);
                 }
             }
             return View(roomCategories);
@@ -152,13 +153,13 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            RoomCategoryTB roomCategories;
+            RoomCategoryTBForDetail roomCategories;
             using (var httpclient = new HttpClient())
             {
                 using (var response = await httpclient.GetAsync(API_URL_ROOMCAT+"/"+id))
                 {
                     var apiresponse = await response.Content.ReadAsStringAsync();
-                    roomCategories = JsonConvert.DeserializeObject<RoomCategoryTB>(apiresponse);
+                    roomCategories = JsonConvert.DeserializeObject<RoomCategoryTBForDetail>(apiresponse);
                 }
             }
             return View(roomCategories);
