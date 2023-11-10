@@ -12,7 +12,7 @@ namespace Hotel_Management_MVC.ViewModels
         public int Category_ID { get; set; }
         [Required]
 
-        public String Branch_Name { get; set; }
+        public string Branch_Name { get; set; }
         [Required]
         [MaxLength(50, ErrorMessage = "Name can not more than 50 character")]
         public string Category_Name { get; set; }

@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<Hotel_Management_MVC.ViewModels.HotelBranchViewModelForIndex>
+﻿@model IEnumerable<Hotel_Management_MVC.ViewModels.HotelBranchViewModelForIndex>
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
@@ -9,9 +8,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1><i class="fas fa-hotel"></i> Hotels</h1>
+        <h1><i class="fas fa-hotel"></i> @ViewBag.HotelName`s  Branch</h1>
         <p>
-            <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+            <a asp-action="Create" asp-route-id="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
         </p>
     </div>
 </div>
@@ -25,17 +24,17 @@
         <div class="col-md-4">
             <!-- Use col-md-4 class to create three columns in medium-sized screens -->
             <div class="card m-3">
-                <div class="card-header">
-                    <h3>@hotel.Hotel_Name</h3>
-                    <h6>@hotel.Branch_Name</h6>
-
-                </div>
-                <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
-                <div class="card-footer text-center">
-                    <a asp-controller="HotelBranch" asp-action="details" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i>  View</a>
-                    <a asp-controller="HotelBranch" asp-action="edit" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i>  Edit</a>
-                    <a asp-controller="HotelBranch" asp-action="delete" asp-route-id="@hotel.Branch_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i>  Delete</a>
-                </div>
+                <a asp-controller="Room" asp-action="Index" asp-route-id="@hotel.Branch_ID" class="float-right">
+                    <div class="card-header">
+                        <h3>@hotel.Branch_Name</h3>
+                    </div>
+                    <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
+                    </a>
+                    <div class="card-footer text-center">
+                        <a asp-controller="HotelBranch" asp-action="details" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i>  View</a>
+                        <a asp-controller="HotelBranch" asp-action="edit" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i>  Edit</a>
+                        <a asp-controller="HotelBranch" asp-action="delete" asp-route-id="@hotel.Branch_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i>  Delete</a>
+                    </div>
             </div>
         </div>
     }

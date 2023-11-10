@@ -17,25 +17,36 @@ namespace Hotel_Management_MVC.Controllers
     public class HotelBranchController : Controller
     {
         private string API_HOTEL_BRANCH;
+        private string API_HOTEL;
 
         public HotelBranchController()
         {
-                     API_HOTEL_BRANCH = @"http://localhost:17312/api/HotelBranchTBs";
+         API_HOTEL_BRANCH = @"http://localhost:17312/api/HotelBranchTBs";
+         API_HOTEL = @"http://localhost:17312/api/hoteltbs";
         }
         // GET: HotelBranchController
-        public async Task<ActionResult> Index()
-        
+       
+
+        public async Task<ActionResult> Index(int id,string HotelName)
+
         {
             List<HotelBranchViewModelForIndex> HotelBranchs = new List<HotelBranchViewModelForIndex>();
 
             using (var httpClient = new HttpClient())
             {
-                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH))
+                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH+"/ByHotelId/"+id))
                 {
                     var apiresponse = await resonse.Content.ReadAsStringAsync();
                     HotelBranchs = JsonConvert.DeserializeObject<List<HotelBranchViewModelForIndex>>(apiresponse);
                 }
             }
+            ViewBag.HotelName = HotelName;
+            if(HotelName == null)
+            {
+                ViewBag.HotelName = HotelBranchs[0].Hotel_Name;
+
+            }
+            ViewBag.Hotel_ID = id;
 
             return View(HotelBranchs);
         }
@@ -58,20 +69,20 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: HotelBranchController/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(int id)
         {
             List<HotelNameAndIdViewModel> Hotels = new List<HotelNameAndIdViewModel>();
 
             using (var httpClient = new HttpClient())
             {
-                using (var resonse = await httpClient.GetAsync(@"http://localhost:17312/api/HotelTBs/ForDropDown"))
+                using (var resonse = await httpClient.GetAsync(API_HOTEL+"/ForDropDown"))
                 {
                     var apiresponse = await resonse.Content.ReadAsStringAsync();
                     Hotels = JsonConvert.DeserializeObject <List<HotelNameAndIdViewModel>>(apiresponse);
                 }
             }
 
-            ViewBag.Hotel_ID = new SelectList(Hotels, "Hotel_ID", "Hotel_Name", null);
+            ViewBag.Hotel_ID = new SelectList(Hotels, "Hotel_ID", "Hotel_Name", id);
 
 
             return View();
@@ -136,7 +147,7 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new {id=collection.Hotel_ID });
             }
             catch
             {

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<RoomTB>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Rooms</h2>
+
+<div style="display: flex;">
+
+    <!-- Drawer with checkboxes for room categories -->
+    <div style="width: 200px; padding: 10px;">
+        <h3>Room Categories</h3>
+        <div id="categoryDrawer">
+            @foreach (var category in ViewBag.roomcategory)
+            {
+                <div>
+                    <label>
+                        <input type="checkbox" class="categoryCheckbox" value="@category.Category_ID" />
+                        @category.Category_Name
+                    </label>
+                </div>
+            }
+        </div>
+        <button onclick="filterRooms()">Filter</button>
+    </div>
+
+    <!-- Main content area displaying room information -->
+    <div style="flex-grow: 1; padding: 10px;">
+        <h3>Room Information</h3>
+        <div id="roomInformation">
+            @foreach (var room in Model)
+            {
+                <div class="room">
+                    <p>Room ID: @room.Room_ID</p>
+                    <p>Room No: @room.Room_No</p>
+                    <!-- Add other room information as needed -->
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+@*<script>
+    function filterRooms() {
+        var selectedCategories = $('.categoryCheckbox:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        // Filter rooms based on selected categories
+        var filteredRooms = @Html.Raw(Json.Encode(Model)).filter(function (room) {
+            return selectedCategories.includes(room.Category_ID.toString());
+        });
+
+        // Display filtered room information
+        $('#roomInformation').empty();
+        filteredRooms.forEach(function (room) {
+            $('#roomInformation').append('<div class="room"><p>Room ID: ' + room.Room_ID + '</p><p>Room No: ' + room.Room_No + '</p></div>');
+            // Add other room information as needed
+        });
+    }
+</script>*@

@@ -187,9 +187,9 @@ namespace Hotel_Management_MVC.Controllers
             }
         }
     }
-}
-public class BranchNameAndIdViewModel
-{
-    public int Branch_ID { get; set; }
-    public string Branch_Name { get; set; }
+    public class BranchNameAndIdViewModel
+    {
+        public int Branch_ID { get; set; }
+        public string Branch_Name { get; set; }
+    }
 }
