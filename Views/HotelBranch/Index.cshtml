@@ -12,7 +12,11 @@
         <p>
             <a asp-action="Create" asp-route-id="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
         </p>
+
+                <a asp-controller="UserRegistration" asp-action="Createforhotelowner" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Owner</a>
     </div>
+
+    
 </div>
 
 

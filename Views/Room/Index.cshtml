@@ -4,30 +4,39 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Rooms</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="fas fa-hotel"></i> @ViewBag.HotelName`s  Branch</h1>
+        <p>
+            <a asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+        </p>
+
+        <a asp-controller="UserRegistration" asp-action="CreateforhotelManager" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Manager</a>
+
+        <a asp-controller="UserRegistration" asp-action="CreateforhotelReceptionist" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Receptionist</a>
+    </div>
+
+
+</div>
 
 <div style="display: flex;">
 
-    <!-- Drawer with checkboxes for room categories -->
-    <div style="width: 200px; padding: 10px;">
+    <!-- Side navbar with room categories -->
+    <div style="width: 200px; padding: 10px; background-color: #f1f1f1;">
         <h3>Room Categories</h3>
-        <div id="categoryDrawer">
+        <div id="categoryNavbar">
             @foreach (var category in ViewBag.roomcategory)
             {
                 <div>
-                    <label>
-                        <input type="checkbox" class="categoryCheckbox" value="@category.Category_ID" />
-                        @category.Category_Name
-                    </label>
+                    <a href="#" class="categoryLink" data-category="@category.Category_ID">@category.Category_Name</a>
                 </div>
             }
         </div>
-        <button onclick="filterRooms()">Filter</button>
     </div>
 
     <!-- Main content area displaying room information -->
     <div style="flex-grow: 1; padding: 10px;">
-        <h3>Room Information</h3>
+        <h2>Rooms</h2>
         <div id="roomInformation">
             @foreach (var room in Model)
             {
@@ -39,20 +48,24 @@
             }
         </div>
     </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-@*<script>
-    function filterRooms() {
-        var selectedCategories = $('.categoryCheckbox:checked').map(function () {
-            return $(this).val();
-        }).get();
-
-        // Filter rooms based on selected categories
-        var filteredRooms = @Html.Raw(Json.Encode(Model)).filter(function (room) {
-            return selectedCategories.includes(room.Category_ID.toString());
+<script>
+    $(document).ready(function () {
+        // Attach click event to category links
+        $('.categoryLink').on('click', function (e) {
+            e.preventDefault();
+            var categoryId = $(this).data('category');
+            filterRoomsByCategory(categoryId);
         });
+    });
+
+    @*function filterRoomsByCategory(categoryId) {
+        // Filter rooms based on the selected category
+        var filteredRooms = @Html.Raw(Json.Encode(Model)).filter(function (room) {
+            return room.Category_ID === categoryId;
+        });*@
 
         // Display filtered room information
         $('#roomInformation').empty();
@@ -61,4 +74,4 @@
             // Add other room information as needed
         });
     }
-</script>*@
+</script>

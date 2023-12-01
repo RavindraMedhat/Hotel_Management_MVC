@@ -45,7 +45,7 @@ namespace Hotel_Management_MVC.Controllers
                     room = JsonConvert.DeserializeObject<List<RoomTB>>(apiresponse);
                 }
             }
-
+            ViewBag.Branch_ID = id;
             return View(room);
         }
         public async Task<ActionResult> Index_Branch()
