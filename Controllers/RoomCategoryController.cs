@@ -25,6 +25,19 @@ namespace Hotel_Management_MVC.Controllers
         }
         public async Task<ActionResult> Index()
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             List<RoomCategoryTBForDetail> roomCategories;
             using(var httpclient=new HttpClient())
             {
@@ -40,6 +53,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Details/5
         public async Task<ActionResult> Details(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             RoomCategoryTBForDetail roomCategories;
             using (var httpclient = new HttpClient())
             {
@@ -57,6 +83,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Create
         public async Task<ActionResult> Create()
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             List<BranchNameAndIdViewModel> branches = new List<BranchNameAndIdViewModel>();
             using(var httpclient=new HttpClient())
             {
@@ -75,6 +114,19 @@ namespace Hotel_Management_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RoomCategoryTB collection)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             try
             {
               using(var httpclient=new HttpClient())
@@ -100,6 +152,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             List<BranchNameAndIdViewModel> branches = new List<BranchNameAndIdViewModel>();
             using (var httpclient = new HttpClient())
             {
@@ -128,6 +193,19 @@ namespace Hotel_Management_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, RoomCategoryTB collection)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             try
             {
                 using (var httpclient = new HttpClient())
@@ -153,6 +231,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: RoomCategoryController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             RoomCategoryTBForDetail roomCategories;
             using (var httpclient = new HttpClient())
             {
@@ -170,6 +261,19 @@ namespace Hotel_Management_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             try
             {
                 using(var httpclient=new HttpClient())

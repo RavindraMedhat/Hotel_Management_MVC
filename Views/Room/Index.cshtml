@@ -1,49 +1,64 @@
-﻿@model IEnumerable<RoomTB>
+﻿@model IEnumerable<RoomTBForIndex>
 
 @{
     ViewBag.Title = "Index";
 }
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <div class="row">
     <div class="col-md-12">
         <h1><i class="fas fa-hotel"></i> @ViewBag.HotelName`s  Branch</h1>
         <p>
-            <a asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
+            <a asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Room</a>
         </p>
 
         <a asp-controller="UserRegistration" asp-action="CreateforhotelManager" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Manager</a>
 
         <a asp-controller="UserRegistration" asp-action="CreateforhotelReceptionist" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Receptionist</a>
     </div>
-
-
 </div>
 
-<div style="display: flex;">
-
+<div class="row mt-2">
     <!-- Side navbar with room categories -->
-    <div style="width: 200px; padding: 10px; background-color: #f1f1f1;">
+    <div class="col-md-3" style="padding: 10px; background-color: #f1f1f1;">
         <h3>Room Categories</h3>
         <div id="categoryNavbar">
+            <div>
+                <i class="fas fa-sitemap"></i> <!-- Font Awesome icon for category -->
+                <strong><a href="#" class="categoryLink" data-category="0">All</a></strong>
+            </div>
             @foreach (var category in ViewBag.roomcategory)
             {
                 <div>
-                    <a href="#" class="categoryLink" data-category="@category.Category_ID">@category.Category_Name</a>
+                    <i class="fas fa-sitemap"></i> <!-- Font Awesome icon for category -->
+                    <strong><a href="#" class="categoryLink" data-category="@category.Category_ID">@category.Category_Name</a></strong>
                 </div>
             }
+            <a asp-controller="RoomCategory" asp-action="Create" class="btn btn-success mt-3"><i class="fas fa-plus"></i> Add Category</a>
         </div>
     </div>
 
     <!-- Main content area displaying room information -->
-    <div style="flex-grow: 1; padding: 10px;">
+    <div class="col-md-9">
         <h2>Rooms</h2>
-        <div id="roomInformation">
+        <div id="roomInformation" class="row">
             @foreach (var room in Model)
             {
-                <div class="room">
-                    <p>Room ID: @room.Room_ID</p>
-                    <p>Room No: @room.Room_No</p>
-                    <!-- Add other room information as needed -->
+                var photopath = "" + (room.Image_URl[0]);
+
+                <div class="col-md-6 room-category" data-category="@room.Category_ID">
+                    <div class="card m-2">
+                        <a asp-controller="Room" asp-action="details" asp-route-id="@room.Room_ID" class="float-right">
+                            <div class="card-header">
+                                <h3>@room.Room_No</h3>
+                            </div>
+                            <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
+                        </a>
+                        <div class="card-footer text-center">
+                            <a asp-controller="HotelBranch" asp-action="details" asp-route-id="@room.Room_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i> View</a>
+                            <a asp-controller="HotelBranch" asp-action="edit" asp-route-id="@room.Room_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i> Edit</a>
+                            <a asp-controller="HotelBranch" asp-action="delete" asp-route-id="@room.Room_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i> Delete</a>
+                        </div>
+                    </div>
                 </div>
             }
         </div>
@@ -51,27 +66,25 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
     $(document).ready(function () {
         // Attach click event to category links
         $('.categoryLink').on('click', function (e) {
             e.preventDefault();
             var categoryId = $(this).data('category');
+            
             filterRoomsByCategory(categoryId);
         });
     });
 
-    @*function filterRoomsByCategory(categoryId) {
-        // Filter rooms based on the selected category
-        var filteredRooms = @Html.Raw(Json.Encode(Model)).filter(function (room) {
-            return room.Category_ID === categoryId;
-        });*@
+    function filterRoomsByCategory(categoryId) {
+        // Show all rooms initially
+        $('.room-category').show();
 
-        // Display filtered room information
-        $('#roomInformation').empty();
-        filteredRooms.forEach(function (room) {
-            $('#roomInformation').append('<div class="room"><p>Room ID: ' + room.Room_ID + '</p><p>Room No: ' + room.Room_No + '</p></div>');
-            // Add other room information as needed
-        });
+        // If a category is selected, hide rooms that don't belong to the selected category
+        if (categoryId !== undefined && categoryId != 0 ) {
+            $('.room-category').not('[data-category="' + categoryId + '"]').hide();
+        }
     }
 </script>

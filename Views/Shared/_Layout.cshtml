@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var httpContext = ViewContext.HttpContext;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,6 +30,16 @@
                     </ul>
                 </div>
             </div>
+            @if (httpContext.Session.GetString("Email") != null && httpContext.Session.GetString("Role") != null && httpContext.Session.GetString("Redirect") != null && httpContext.Session.GetString("RedirctID") != null )
+            {
+                <a asp-action="Logout" asp-controller="UserRegistration" class="btn btn-primary">LogOut</a>
+
+            }
+            else
+            {
+            <a asp-action="Login" asp-controller="UserRegistration" class="btn btn-primary">Login</a>
+            }
+
         </nav>
     </header>
     <div class="container">

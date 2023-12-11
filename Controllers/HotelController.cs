@@ -19,11 +19,26 @@ namespace Hotel_Management_MVC.Controllers
  
         public HotelController()
         {
+            
             API_HOTEL = @"http://localhost:17312/api/hoteltbs";
         }
         // GET: HotelController
         public async Task<ActionResult> Index()
         {
+           
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role==null || Redirect ==null || RedirctID == null)
+            {
+                return RedirectToAction( "login", "UserRegistration");
+
+            }else if (Role != "SuperAdmin")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
+
             List<HotelViewModelForIndex> Hotels = new List<HotelViewModelForIndex>();
 
             using(var httpClient = new HttpClient())
@@ -41,6 +56,20 @@ namespace Hotel_Management_MVC.Controllers
         // GET: HotelController/Details/5
         public async Task<ActionResult> Details(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "SuperAdmin")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
+
             HotelViewModelForDetails hotelViewModelForDetails;
 
             using(var httpclient=new HttpClient())
@@ -58,6 +87,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: HotelController/Create
         public async Task<ActionResult> Create()
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "SuperAdmin")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
 
             return View();
         }
@@ -132,6 +174,19 @@ namespace Hotel_Management_MVC.Controllers
         // GET: HotelController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "SuperAdmin")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
             HotelViewModelForDetails hotelViewModelForDetails;
 
             using (var httpclient = new HttpClient())
@@ -175,6 +230,20 @@ namespace Hotel_Management_MVC.Controllers
         // GET: HotelController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
+            var Email = HttpContext.Session.GetString("Email");
+            var Role = HttpContext.Session.GetString("Role");
+            var Redirect = HttpContext.Session.GetString("Redirect");
+            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
+            {
+                return RedirectToAction("login", "UserRegistration");
+
+            }
+            else if (Role != "SuperAdmin")
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
+
             HotelViewModelForDetails hotelViewModelForDetails;
 
             using (var httpclient = new HttpClient())

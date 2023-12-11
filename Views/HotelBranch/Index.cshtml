@@ -13,32 +13,28 @@
             <a asp-action="Create" asp-route-id="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
         </p>
 
-                <a asp-controller="UserRegistration" asp-action="Createforhotelowner" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Owner</a>
+        <a asp-controller="UserRegistration" asp-action="Createforhotelowner" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Owner</a>
     </div>
-
-    
 </div>
 
-
-<div class="row">
+<div class="row" >
     @foreach (var hotel in Model)
     {
         var photopath = "" + (hotel.Image_URl[0]);
 
         <div class="col-md-4">
-            <!-- Use col-md-4 class to create three columns in medium-sized screens -->
             <div class="card m-3">
                 <a asp-controller="Room" asp-action="Index" asp-route-id="@hotel.Branch_ID" class="float-right">
                     <div class="card-header">
                         <h3>@hotel.Branch_Name</h3>
                     </div>
                     <img class="card-img-top card-body imageThumbnail" style="height:300px" src="@photopath" asp-append-version="true" />
-                    </a>
-                    <div class="card-footer text-center">
-                        <a asp-controller="HotelBranch" asp-action="details" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i>  View</a>
-                        <a asp-controller="HotelBranch" asp-action="edit" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i>  Edit</a>
-                        <a asp-controller="HotelBranch" asp-action="delete" asp-route-id="@hotel.Branch_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i>  Delete</a>
-                    </div>
+                </a>
+                <div class="card-footer text-center">
+                    <a asp-controller="HotelBranch" asp-action="details" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-eye"></i> View</a>
+                    <a asp-controller="HotelBranch" asp-action="edit" asp-route-id="@hotel.Branch_ID" class="btn btn-primary m-1"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    <a asp-controller="HotelBranch" asp-action="delete" asp-route-id="@hotel.Branch_ID" class="btn btn-danger m-1"><i class="fas fa-trash"></i> Delete</a>
+                </div>
             </div>
         </div>
     }
