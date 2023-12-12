@@ -28,7 +28,7 @@
             @*<label asp-for="Hotel_ID" class="control-label"></label>*@
             Category Name
             @Html.DropDownList("Category_ID", null, htmlAttributes: new { @class = "form-control" })
-                <a asp-controller="RoomCategory" asp-action="Create" ><i class="fas fa-plus"></i> Add Category</a>
+                <a asp-controller="RoomCategory" asp-action="Create"  asp-route-id="@ViewBag.Branch_ID"  ><i class="fas fa-plus"></i> Add Category</a>
             @*<input asp-for="Hotel_ID" class="form-control" />*@
             <span asp-validation-for="Category_ID" class="text-danger"></span>
         </div>

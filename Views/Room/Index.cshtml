@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <div class="row">
     <div class="col-md-12">
-        <h1><i class="fas fa-hotel"></i> @ViewBag.HotelName`s  Branch</h1>
+        <h1><i class="fas fa-hotel"></i> @ViewBag.Branch_Name`s  Rooms</h1>
         <p>
             <a asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Room</a>
         </p>
@@ -33,7 +33,7 @@
                     <strong><a href="#" class="categoryLink" data-category="@category.Category_ID">@category.Category_Name</a></strong>
                 </div>
             }
-            <a asp-controller="RoomCategory" asp-action="Create" class="btn btn-success mt-3"><i class="fas fa-plus"></i> Add Category</a>
+            <a asp-controller="RoomCategory" asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-success mt-3"><i class="fas fa-plus"></i> Add Category</a>
         </div>
     </div>
 

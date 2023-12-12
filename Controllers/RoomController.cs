@@ -1,4 +1,5 @@
 ﻿using Hotel_Management_MVC.Models;
+using Hotel_Management_MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -41,6 +42,11 @@ namespace Hotel_Management_MVC.Controllers
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
+            else if ((Role == "HotelManager" || Role == "HotelReceptionist") && RedirctID != id)
+            {
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
+            
             List<RoomCategoryTBforcheckbox> roomCategoryTBforcheckbox = new List<RoomCategoryTBforcheckbox>();
 
             using (var httpclient = new HttpClient())
@@ -64,32 +70,47 @@ namespace Hotel_Management_MVC.Controllers
                 }
             }
             ViewBag.Branch_ID = id;
-            return View(room);
-        }
-        public async Task<ActionResult> Index_Branch()
-        {
-            var Email = HttpContext.Session.GetString("Email");
-            var Role = HttpContext.Session.GetString("Role");
-            var Redirect = HttpContext.Session.GetString("Redirect");
-            var RedirctID = HttpContext.Session.GetInt32("RedirctID");
-            if (Email == null || Role == null || Redirect == null || RedirctID == null)
-            {
-                return RedirectToAction("login", "UserRegistration");
+            HotelBranchViewModelForDetails HotelBranchsdetail;
 
-            }
-            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
+            using (var httpClient = new HttpClient())
             {
-                return RedirectToAction("Index", Redirect, new { id = RedirctID });
-            }
-            using (var httpclient = new HttpClient())
-            {
-                using (var response = await httpclient.GetAsync(API_ROOM))
+                using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH + "/" + id))
                 {
-                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    HotelBranchsdetail = JsonConvert.DeserializeObject<HotelBranchViewModelForDetails>(apiresponse);
                 }
             }
-            return View();
+            ViewBag.Branch_Name = HotelBranchsdetail.Branch_Name;
+
+            return View(room);
         }
+        //public async Task<ActionResult> Index_Branch()
+        //{
+        //    var Email = HttpContext.Session.GetString("Email");
+        //    var Role = HttpContext.Session.GetString("Role");
+        //    var Redirect = HttpContext.Session.GetString("Redirect");
+        //    var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+        //    if (Email == null || Role == null || Redirect == null || RedirctID == null)
+        //    {
+        //        return RedirectToAction("login", "UserRegistration");
+
+        //    }
+        //    else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
+        //    {
+        //        return RedirectToAction("Index", Redirect, new { id = RedirctID });
+        //    }
+            
+
+
+        //    using (var httpclient = new HttpClient())
+        //    {
+        //        using (var response = await httpclient.GetAsync(API_ROOM))
+        //        {
+        //            var apiresponse = await response.Content.ReadAsStringAsync();
+        //        }
+        //    }
+        //    return View();
+        //}
         public async Task<ActionResult> Index_RoomCategory()
         {
             var Email = HttpContext.Session.GetString("Email");
@@ -161,6 +182,7 @@ namespace Hotel_Management_MVC.Controllers
                 }
             }
 
+
             HotelBranchTB hb = new HotelBranchTB();
             using (var httpclient = new HttpClient())
             {
@@ -170,7 +192,7 @@ namespace Hotel_Management_MVC.Controllers
                     hb = JsonConvert.DeserializeObject<HotelBranchTB>(apiresponse);
                 }
             }
-
+          
 
             ViewBag.Category_ID = new SelectList(roomCategoryTBforcheckbox, "Category_ID", "Category_Name", id);
 
@@ -336,7 +358,7 @@ namespace Hotel_Management_MVC.Controllers
         // POST: RoomController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
             var Email = HttpContext.Session.GetString("Email");
             var Role = HttpContext.Session.GetString("Role");
@@ -347,10 +369,36 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner" )
+            {
+                
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+            }
+            else if ((Role == "HotelManager" || Role == "HotelReceptionist") && RedirctID != id)
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
+            else if (Role == "HotelOwner")
+            {
+                List<HotelBranchViewModelForIndex> HotelBranchs;
+                using (var httpClient = new HttpClient())
+                {
+                    using (var resonse = await httpClient.GetAsync(API_HOTEL_BRANCH + "/ByHotelId/" + id))
+                    {
+                        var apiresponse = await resonse.Content.ReadAsStringAsync();
+                        HotelBranchs = JsonConvert.DeserializeObject<List<HotelBranchViewModelForIndex>>(apiresponse);
+                    }
+                }
+
+                HotelBranchs = (from h in HotelBranchs
+                                where h.Branch_ID == id
+                                select h).ToList();
+                if (HotelBranchs.Count == 0)
+                {
+                    return RedirectToAction("Index", Redirect, new { id = RedirctID });
+                }
+            }
+
             try
             {
                 return RedirectToAction(nameof(Index));

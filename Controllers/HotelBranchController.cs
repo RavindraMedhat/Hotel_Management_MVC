@@ -78,7 +78,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelOwner" && Role != "SuperAdmin")
+            else if (Role != "HotelOwner" && Role != "SuperAdmin" && id == RedirctID)
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -123,7 +123,9 @@ namespace Hotel_Management_MVC.Controllers
                     Hotels = JsonConvert.DeserializeObject <List<HotelNameAndIdViewModel>>(apiresponse);
                 }
             }
-
+            Hotels = (from h in Hotels
+                      where h.Hotel_ID == id
+                      select h).ToList();
             ViewBag.Hotel_ID = new SelectList(Hotels, "Hotel_ID", "Hotel_Name", id);
 
 

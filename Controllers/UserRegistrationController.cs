@@ -139,7 +139,7 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","HotelBranch",new { id= Hotel_ID });
             }
             catch
             {
@@ -237,7 +237,7 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("index","room",new { id= Branch_ID });
             }
             catch
             {
@@ -336,7 +336,8 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("index", "room", new { id = Branch_ID });
+
             }
             catch
             {
@@ -406,7 +407,7 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("login","userregistration");
             }
             catch
             {

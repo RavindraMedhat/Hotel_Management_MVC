@@ -1,5 +1,6 @@
 ﻿using Hotel_Management_MVC.Models;
 using Hotel_Management_MVC.ViewModels;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,40 +17,45 @@ namespace Hotel_Management_MVC.Controllers
     public class HotelController : Controller
     {
         private string API_HOTEL;
+        private readonly IDataProtector protector;
  
-        public HotelController()
+        public HotelController(IDataProtectionProvider dataProtectionProvider,DataProtectionPurposeString dataProtectionPurposeString) 
         {
-            
+            protector = dataProtectionProvider.CreateProtector(dataProtectionPurposeString.HotelIDRouteValue);
             API_HOTEL = @"http://localhost:17312/api/hoteltbs";
         }
         // GET: HotelController
         public async Task<ActionResult> Index()
         {
-           
+
             var Email = HttpContext.Session.GetString("Email");
             var Role = HttpContext.Session.GetString("Role");
             var Redirect = HttpContext.Session.GetString("Redirect");
             var RedirctID = HttpContext.Session.GetInt32("RedirctID");
-            if (Email == null || Role==null || Redirect ==null || RedirctID == null)
+            if (Email == null || Role == null || Redirect == null || RedirctID == null)
             {
-                return RedirectToAction( "login", "UserRegistration");
+                return RedirectToAction("login", "UserRegistration");
 
-            }else if (Role != "SuperAdmin")
+            } else if (Role != "SuperAdmin")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
 
             List<HotelViewModelForIndex> Hotels = new List<HotelViewModelForIndex>();
 
-            using(var httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
-                using(var resonse=await httpClient.GetAsync(API_HOTEL))
+                using (var resonse = await httpClient.GetAsync(API_HOTEL))
                 {
                     var apiresponse = await resonse.Content.ReadAsStringAsync();
                     Hotels = JsonConvert.DeserializeObject<List<HotelViewModelForIndex>>(apiresponse);
                 }
             }
-        
+            //Hotels = Hotels.Select(h =>
+            //{
+            //    h.EncryptedID = protector.Protect(h.Hotel_ID.ToString());
+            //    return h;
+            //}).ToList();
             return View(Hotels);
         }
 
@@ -70,6 +76,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
 
+            //int decryptedID = Convert.ToInt32(protector.Unprotect(id));
             HotelViewModelForDetails hotelViewModelForDetails;
 
             using(var httpclient=new HttpClient())
@@ -81,6 +88,7 @@ namespace Hotel_Management_MVC.Controllers
                 }
             }
 
+            //hotelViewModelForDetails.EncryptedID = protector.Protect(hotelViewModelForDetails.Hotel_ID.ToString());
             return View(hotelViewModelForDetails);
         }
 
@@ -174,6 +182,7 @@ namespace Hotel_Management_MVC.Controllers
         // GET: HotelController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+
             var Email = HttpContext.Session.GetString("Email");
             var Role = HttpContext.Session.GetString("Role");
             var Redirect = HttpContext.Session.GetString("Redirect");
@@ -187,6 +196,9 @@ namespace Hotel_Management_MVC.Controllers
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
+
+            //int decryptedID = Convert.ToInt32(protector.Unprotect(id));
+
             HotelViewModelForDetails hotelViewModelForDetails;
 
             using (var httpclient = new HttpClient())
@@ -208,7 +220,8 @@ namespace Hotel_Management_MVC.Controllers
         {
             try
             {
-                using(var httpClient=new HttpClient())
+
+                using (var httpClient=new HttpClient())
                 {
                     var jsondata = JsonConvert.SerializeObject(collection);
 

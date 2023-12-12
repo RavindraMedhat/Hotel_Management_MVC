@@ -34,7 +34,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -62,7 +62,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -81,7 +81,7 @@ namespace Hotel_Management_MVC.Controllers
         
 
         // GET: RoomCategoryController/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(int id)
         {
             var Email = HttpContext.Session.GetString("Email");
             var Role = HttpContext.Session.GetString("Role");
@@ -92,7 +92,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -105,6 +105,9 @@ namespace Hotel_Management_MVC.Controllers
                     branches = JsonConvert.DeserializeObject<List<BranchNameAndIdViewModel>>(apiresponse);
                 }
             }
+            branches = (from hbr in branches
+                        where hbr.Branch_ID == id
+                                         select hbr).ToList();
             ViewBag.Branch_ID = new SelectList(branches, "Branch_ID", "Branch_Name", null);
             return View();
         }
@@ -123,7 +126,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -141,7 +144,7 @@ namespace Hotel_Management_MVC.Controllers
 
                 }
               
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Room",new {id = collection.Branch_ID });
             }
             catch
             {
@@ -161,7 +164,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -202,7 +205,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -240,7 +243,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
@@ -270,7 +273,7 @@ namespace Hotel_Management_MVC.Controllers
                 return RedirectToAction("login", "UserRegistration");
 
             }
-            else if (Role != "HotelManager" && Role != "HotelReceptionis" && Role != "HotelOwner")
+            else if (Role != "HotelManager" && Role != "HotelReceptionist" && Role != "HotelOwner")
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
