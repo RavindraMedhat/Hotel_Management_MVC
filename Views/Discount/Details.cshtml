@@ -24,6 +24,12 @@
             @Html.DisplayFor(model => model.Discount_Name)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Hotel_ID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hotel_ID)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Start_Date)
         </dt>
         <dd class = "col-sm-10">
@@ -54,14 +60,14 @@
             @Html.DisplayFor(model => model.Delete_Flag)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.sortedfield)
+            @Html.DisplayNameFor(model => model.Sortedfield)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.sortedfield)
+            @Html.DisplayFor(model => model.Sortedfield)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Discount_ID }) |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

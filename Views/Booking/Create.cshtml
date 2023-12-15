@@ -1,0 +1,117 @@
+﻿@model Hotel_Management_MVC.Models.Booking
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Booking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <p style="color:red">
+                @ViewBag.Errormessage
+            </p>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="User_ID" class="control-label"></label>
+                @*<input asp-for="User_ID" class="form-control" />*@
+                @Html.DropDownList("User_ID", null, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="User_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <input type="hidden" asp-for="Room_ID" class="form-control" readonly />
+                <span asp-validation-for="Room_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Group_ID" class="control-label"></label>
+                <input asp-for="Group_ID" class="form-control"  />
+                <span asp-validation-for="Group_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <input type="hidden" asp-for="Branch_ID" class="form-control" />
+                <span asp-validation-for="Branch_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  asp-for="Check_In_Date" class="control-label"></label>
+                <input type="date" asp-for="Check_In_Date" class="form-control" />
+                <span asp-validation-for="Check_In_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Check_Out_Date" class="control-label"></label>
+                <input type="date" asp-for="Check_Out_Date" class="form-control" />
+                <span asp-validation-for="Check_Out_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking_Date" class="control-label"></label>
+                <input asp-for="Booking_Date" class="form-control" readonly/>
+                <span asp-validation-for="Booking_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment_Status" class="control-label"></label>
+                <input asp-for="Payment_Status" class="form-control" />
+                <span asp-validation-for="Payment_Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payed_Amount" class="control-label"></label>
+                <input asp-for="Payed_Amount" class="form-control" />
+                <span asp-validation-for="Payed_Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment_Mode" class="control-label"></label>
+                <input asp-for="Payment_Mode" class="form-control" />
+                <span asp-validation-for="Payment_Mode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coupon_Code" class="control-label"></label>
+                <input asp-for="Coupon_Code" class="form-control" />
+                <span asp-validation-for="Coupon_Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking_Status" class="control-label"></label>
+                <input asp-for="Booking_Status" class="form-control" />
+                <span asp-validation-for="Booking_Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer_status" class="control-label"></label>
+                <input asp-for="Customer_status" class="form-control" />
+                <span asp-validation-for="Customer_status" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active_Flag" /> @Html.DisplayNameFor(model => model.Active_Flag)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Delete_Flag" /> @Html.DisplayNameFor(model => model.Delete_Flag)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sortedfield" class="control-label"></label>
+                <input asp-for="Sortedfield" class="form-control" />
+                <span asp-validation-for="Sortedfield" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

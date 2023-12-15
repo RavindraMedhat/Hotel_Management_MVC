@@ -1,6 +1,7 @@
 ﻿using Hotel_Management_MVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,23 +15,27 @@ namespace Hotel_Management_MVC.Controllers
     public class DiscountController : Controller
     {
         private string API_Discount;
+        private string API_HOTEL;
 
         public DiscountController()
         {
             API_Discount = @"http://localhost:17312/api/Discounts";
+            API_HOTEL = @"http://localhost:17312/api/hoteltbs";
+
         }
         // GET: DicountController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int hid)
         {
             List<Discount> discounts;
             using(var httpClient=new HttpClient())
             {
-                using(var response=await httpClient.GetAsync(API_Discount))
+                using(var response=await httpClient.GetAsync(API_Discount+ "/ByHotelID/" + hid))
                 {
                     var apiresponse = await response.Content.ReadAsStringAsync();
                     discounts = JsonConvert.DeserializeObject<List<Discount>>(apiresponse);
                 }
             }
+            ViewBag.Hotel_ID = hid;
             return View(discounts);
         }
 
@@ -50,8 +55,21 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: DicountController/Create
-        public  ActionResult Create()
+        public async Task<ActionResult> Create(int hid)
         {
+            List<HotelTB> hotels;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(API_HOTEL))
+                {
+                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    hotels = JsonConvert.DeserializeObject<List<HotelTB>>(apiresponse);
+                }
+            }
+            hotels = (from h in hotels
+                      where h.Hotel_ID == hid
+                      select h).ToList();
+            ViewBag.Hotel_ID = new SelectList(hotels, "Hotel_ID", "Hotel_Name",  hid );
             return View();
         }
 
@@ -72,7 +90,7 @@ namespace Hotel_Management_MVC.Controllers
                        
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Discount", new { hid = collection.Hotel_ID });
             }
             catch
             {
@@ -83,6 +101,7 @@ namespace Hotel_Management_MVC.Controllers
         // GET: DicountController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            
             Discount discounts;
             using (var httpClient = new HttpClient())
             {
@@ -92,6 +111,20 @@ namespace Hotel_Management_MVC.Controllers
                     discounts = JsonConvert.DeserializeObject<Discount>(apiresponse);
                 }
             }
+
+            List<HotelTB> hotels;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(API_HOTEL))
+                {
+                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    hotels = JsonConvert.DeserializeObject<List<HotelTB>>(apiresponse);
+                }
+            }
+            hotels = (from h in hotels
+                      where h.Hotel_ID == discounts.Hotel_ID
+                      select h).ToList();
+            ViewBag.Hotel_ID = new SelectList(hotels, "Hotel_ID", "Hotel_Name", discounts.Hotel_ID);
             return View(discounts);
         }
 
@@ -112,7 +145,7 @@ namespace Hotel_Management_MVC.Controllers
 
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Discount", new { hid = collection.Hotel_ID });
             }
             catch
             {
@@ -138,7 +171,7 @@ namespace Hotel_Management_MVC.Controllers
         // POST: DicountController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Discount collection)
         {
             try
             {
@@ -151,7 +184,7 @@ namespace Hotel_Management_MVC.Controllers
 
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Discount", new { hid = collection.Hotel_ID });
             }
             catch
             {

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_Management_MVC.Controllers
@@ -19,13 +20,14 @@ namespace Hotel_Management_MVC.Controllers
         private string API_ROOM;
         private string API_URL_ROOMCAT;
         private string API_HOTEL_BRANCH;
+        private string API_Details_ROOM_ID;
 
         public RoomController()
         {
             API_ROOM = @"http://localhost:17312/api/roomtbs";
             API_URL_ROOMCAT = @"http://localhost:17312/api/RoomCategoryTBs";
             API_HOTEL_BRANCH = @"http://localhost:17312/api/HotelBranchTBs";
-
+            API_Details_ROOM_ID = @"http://localhost:17312/api/bookings/ByRoomIDAndDate";
         }
         public async Task<ActionResult> Index(int id)
         {
@@ -137,7 +139,7 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: RoomController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             var Email = HttpContext.Session.GetString("Email");
             var Role = HttpContext.Session.GetString("Role");
@@ -152,7 +154,33 @@ namespace Hotel_Management_MVC.Controllers
             {
                 return RedirectToAction("Index", Redirect, new { id = RedirctID });
             }
-            return View();
+
+            RoomViewModelForDetails roomViewModelForDetails;
+            using(var httpClient=new HttpClient())
+            {
+                using(var response=await httpClient.GetAsync(API_ROOM + "/" + id))
+                {
+                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    roomViewModelForDetails = JsonConvert.DeserializeObject<RoomViewModelForDetails>(apiresponse);
+                }
+            }
+            //ViewBag.Room_ID = id;
+            List<ViewModelForAvailability> ViewModelForAvailability;
+            using(var httpClient=new HttpClient())
+            {
+                reqDataForAvailability reqData = new reqDataForAvailability() { date = DateTime.Now, Room_id = id };
+                
+                var jsondata = JsonConvert.SerializeObject( reqData);
+                var contentdata = new StringContent(jsondata, Encoding.UTF8, @"Application/json");
+                using(var response=await httpClient.PostAsync(API_Details_ROOM_ID , contentdata))
+                {
+                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    ViewModelForAvailability = JsonConvert.DeserializeObject<List<ViewModelForAvailability>>(apiresponse);
+                }
+            }
+            ViewBag.Availability = ViewModelForAvailability;
+            //roomViewModelForDetails.Room_ID = id;
+            return View(roomViewModelForDetails);
         }
 
         // GET: RoomController/Create

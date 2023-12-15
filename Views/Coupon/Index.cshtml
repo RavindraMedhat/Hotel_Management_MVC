@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hotel_Management_MVC.Models.Discount>
+﻿@model IEnumerable<Hotel_Management_MVC.Models.Coupon>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,19 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Discount_ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount_Name)
+                @Html.DisplayNameFor(model => model.Coupon_ID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Hotel_ID)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Coupon_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coupon_Code)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Start_Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.End_Date)
+                @Html.DisplayNameFor(model => model.Expiry_Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Discount_Percentage)
@@ -47,19 +50,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Discount_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount_Name)
+                @Html.DisplayFor(modelItem => item.Coupon_ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hotel_ID)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Coupon_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Coupon_Code)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Start_Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.End_Date)
+                @Html.DisplayFor(modelItem => item.Expiry_Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Discount_Percentage)
@@ -74,9 +80,9 @@
                 @Html.DisplayFor(modelItem => item.Sortedfield)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Discount_ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Discount_ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Discount_ID })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
