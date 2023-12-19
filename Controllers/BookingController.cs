@@ -30,13 +30,22 @@ namespace Hotel_Management_MVC.Controllers
         }
 
         // GET: BookingController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            Booking booking;
+            using(var httpClient=new HttpClient())
+            {
+                using(var response=await httpClient.GetAsync(API_Booking + "/" + id))
+                {
+                    var apiresponse = await response.Content.ReadAsStringAsync();
+                    booking = JsonConvert.DeserializeObject<Booking>(apiresponse);
+                }
+            }
+            return View(booking);
         }
 
         // GET: BookingController/Create
-        public async Task<ActionResult> Create(int Rid,int Bid)
+        public async Task<ActionResult> Create(int Rid,int Bid,string date)
         {
             List<CustomerForDropdown> CustomerForDropdown;
             using(var httpClient=new HttpClient())
@@ -49,8 +58,19 @@ namespace Hotel_Management_MVC.Controllers
             }
             ViewBag.User_ID = new SelectList(CustomerForDropdown, "User_ID", "Name", null);
 
-            Booking booking = new Booking() {Room_ID=Rid,Branch_ID=Bid, Booking_Date=DateTime.Now,
-            Active_Flag=true,Delete_Flag=false,Sortedfield=99,Booking_Status="Done",Discount=0,Customer_status="aavi gayo",Group_ID=0,Payment_Mode="cash",Payment_Status="pending",Check_In_Date=DateTime.Now,Check_Out_Date=DateTime.Now.AddDays(1)};
+            Booking booking = new Booking() {Room_ID=Rid,Branch_ID=Bid, Booking_Date=DateTime.Now, Active_Flag=true,Delete_Flag=false,Sortedfield=99,Booking_Status="Done",Discount=0,Customer_status="aavigayo",Group_ID="",Payment_Mode="cash",Payment_Status="pending",Check_In_Date=  DateTime.Now,Check_Out_Date= DateTime.Now.AddDays(1)};
+
+            if (date != null)
+            {
+                if(DateTime.Parse(date) >= DateTime.Now)
+                {
+                    booking.Check_In_Date = DateTime.Parse(date);
+                    booking.Check_Out_Date = DateTime.Parse(date).AddDays(1);
+                }
+            }
+
+
+            
 
             return View(booking);
         }
@@ -62,7 +82,29 @@ namespace Hotel_Management_MVC.Controllers
         {
             try
             {
-                using(var httpClient=new HttpClient())
+                if(collection.Check_In_Date.Date > collection.Check_Out_Date.Date || collection.Check_Out_Date.Date <DateTime.Now.Date || collection.Check_In_Date.Date < DateTime.Now.Date)
+                {
+                    ViewBag.Errormessage = "Invalid Check in / check out date";
+
+                    collection.Check_In_Date = DateTime.Now;
+                    collection.Check_Out_Date = DateTime.Now.AddDays(1);
+
+                    List<CustomerForDropdown> CustomerForDropdown;
+                    using (var httpClient2 = new HttpClient())
+                    {
+                        using (var response2 = await httpClient2.GetAsync(API_GET_Customer))
+                        {
+                            var apiresponse2 = await response2.Content.ReadAsStringAsync();
+                            CustomerForDropdown = JsonConvert.DeserializeObject<List<CustomerForDropdown>>(apiresponse2);
+                        }
+                    }
+                    ViewBag.User_ID = new SelectList(CustomerForDropdown, "User_ID", "Name", null);
+
+                    return View(collection);
+
+                }
+
+                using (var httpClient=new HttpClient())
                 {
                     var jsondata = JsonConvert.SerializeObject(collection);
                     var contentdata = new StringContent(jsondata, Encoding.UTF8, @"Application/json");

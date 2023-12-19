@@ -8,6 +8,7 @@
 }
 
 <h1>Details</h1>
+
 <a asp-action="Create" asp-controller="Booking" asp-route-Rid="@Model.Room_ID" asp-route-Bid="@Model.Branch_ID">Booke Room </a>
 <div class="row">
     <div class="col-md-6 room-category" data-category="@Model.Category_Name">
@@ -60,14 +61,28 @@
                     <tbody>
                         @foreach (var availability in Availability)
                         {
-                            <tr style="padding: 10px; margin:10px; background-color: @(availability.Availability == "Available" ? "#d3ffd3" : "#d9534f");">
-                                <td style="padding: 10px; margin: 10px;">@availability.Date.ToShortDateString()</td>
-                                <td style="padding: 10px; margin: 10px;">@availability.Availability</td>
-                                <td style="padding: 10px; margin: 10px;">@availability.Customer_Name</td>
-                            </tr>
+                        <tr style="padding: 10px; margin:10px; background-color: @(availability.Availability == "Available" ? "#d3ffd3" : "#d9534f");">
+                            <td style="padding: 10px; margin: 10px;">@availability.Date.ToShortDateString()</td>
+                            <td style="padding: 10px; margin: 10px;">@availability.Availability</td>
+                            <td style="padding: 10px; margin: 10px;">@availability.Customer_Name</td>
+
+                            <td>
+                                @if (availability.Availability != "Available")
+                                {
+                                    <a asp-action=Details asp-controller='Booking' asp-route-id='@availability.Booking_ID'>Details</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="Create" asp-controller="Booking" asp-route-date="@availability.Date" asp-route-Bid="@Model.Branch_ID" asp-route-Rid="@Model.Room_ID">Book</a>
+                                }
+                            </td>
+
+                        </tr>
                         }
                     </tbody>
+
                 </table>
+                
             </div>
         </div>
     </div>

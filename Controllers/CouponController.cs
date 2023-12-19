@@ -47,6 +47,7 @@ namespace Hotel_Management_MVC.Controllers
         // GET: CouponController/Create
         public async Task<ActionResult> Create(int hid)
         {
+
             List<HotelTB> hotels;
             using (var httpClient = new HttpClient())
             {
@@ -70,6 +71,7 @@ namespace Hotel_Management_MVC.Controllers
         {
             try
             {
+
                 using (var httpClient = new HttpClient())
                 {
                     var jsondata = JsonConvert.SerializeObject(collection);
@@ -78,6 +80,25 @@ namespace Hotel_Management_MVC.Controllers
                     {
                         var apiresponse = await response.Content.ReadAsStringAsync();
 
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            List<HotelTB> hotels;
+                            using (var httpClient2 = new HttpClient())
+                            {
+                                using (var response2 = await httpClient.GetAsync(API_HOTEL))
+                                {
+                                    var apiresponse2 = await response2.Content.ReadAsStringAsync();
+                                    hotels = JsonConvert.DeserializeObject<List<HotelTB>>(apiresponse2);
+                                }
+                            }
+                            hotels = (from h in hotels
+                                      where h.Hotel_ID == collection.Hotel_ID
+                                      select h).ToList();
+                            ViewBag.Hotel_ID = new SelectList(hotels, "Hotel_ID", "Hotel_Name", collection.Hotel_ID);
+                            ViewBag.Errormessage = (JsonConvert.DeserializeObject<MyError>(apiresponse)).Errormessage;
+                            return View();
+
+                        }
                     }
                 }
                 return RedirectToAction("Index", "Coupon", new { hid = collection.Hotel_ID });

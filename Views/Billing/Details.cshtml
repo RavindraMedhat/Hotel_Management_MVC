@@ -1,0 +1,112 @@
+﻿@model BillRes
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Generate Bill</title>
+    <style>
+        .bill-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        .table-header {
+            background-color: #4CAF50;
+            color: black;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class='bill-container'>
+        @*<h2>Invoice</h2>*@
+
+        <!-- Display Billing Information -->
+        <table>
+            <tr>
+                <th>Bill ID</th>
+                <td>@Model.bill.Bill_ID</td>
+                <th>Group ID</th>
+                <td>@Model.bill.Group_ID</td>
+            </tr>
+            <tr>
+                <th>Bill Date</th>
+                <td>@Model.bill.Bill_Date.ToString("yyyy-MM-dd")</td>
+            </tr>
+
+        </table>
+
+        <!-- Display Additional Payment Information -->
+        <h3>Payment Information</h3>
+        <table>
+            <thead>
+                <tr class='table-header'>
+                    <th>Detail</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.details)
+                {
+                    <tr>
+                        <td>@detail.detail</td>
+                        <td>@detail.amount.ToString("C")</td>
+                    </tr>
+                }
+                <tr><td>----------------------------------------------------------------</td><td>------------------------</td></tr>
+
+                <tr>
+                    <th>Total Amount</th>
+                    <td>@Model.bill.Total_Amount.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Discount Amount</th>
+                    <td>- @Model.bill.Discount_Amount.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Paid Amount</th>
+                    <td>- @Model.bill.Payed_Amount.ToString("C")</td>
+                </tr>
+                <tr>
+                    <th>Final Amount</th>
+                    <td>@Model.bill.Final_Amount.ToString("C")</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div class='footer'>
+            This bill is a computer-generated document. No signature is required.
+        </div>
+    </div>
+    <a asp-controller='Billing' asp-action='GetHTMLPageAsPDF' asp-route-Gid='@Model.bill.Group_ID' class='btn btn-primary'>Genrate PDF</a>
+</body>
+</html>

@@ -22,7 +22,7 @@ namespace Hotel_Management_MVC.Controllers
         public HotelController(IDataProtectionProvider dataProtectionProvider,DataProtectionPurposeString dataProtectionPurposeString) 
         {
             protector = dataProtectionProvider.CreateProtector(dataProtectionPurposeString.HotelIDRouteValue);
-            API_HOTEL = @"http://localhost:17312/api/hoteltbs";
+            API_HOTEL = @"http://localhost:17312/api/HotelTBs";
         }
         // GET: HotelController
         public async Task<ActionResult> Index()

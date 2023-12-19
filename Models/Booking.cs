@@ -18,7 +18,7 @@ namespace Hotel_Management_MVC.Models
         [ForeignKey("Room_ID")]
 
         public int Room_ID { get; set; }
-        public int Group_ID { get; set; }
+        public string Group_ID { get; set; }
         [Required]
         [ForeignKey("Branch_ID")]
         public int Branch_ID { get; set; }
