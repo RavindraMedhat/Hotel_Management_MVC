@@ -10,6 +10,10 @@ namespace Hotel_Management_MVC.ViewModels
     {
         public Billing bill { get; set; }
         public List<Details> details { get; set; }
+        public string Email { get; set; }
+        public string CustomerName { get; set; }
+        public string HotelName { get; set; }
+        public string HotelBranch { get; set; }
     }
     public class Details
     {

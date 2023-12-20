@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,6 +59,7 @@ namespace Hotel_Management_MVC.Controllers
             }
             
         }
+
         //public async Task<IActionResult> GetHTMLPageAsPDF(string Gid) {
         //         BillRes data;
         //         using (var httpclient = new HttpClient())
@@ -93,6 +97,52 @@ namespace Hotel_Management_MVC.Controllers
         //         }
 
         // }
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //public async Task<IActionResult> GetHTMLPageAsPDF(string Gid)
+        //{
+        //    BillRes data;
+
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        var jsonData = JsonConvert.SerializeObject(Gid);
+        //        var contentData = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+        //        using (var response = await httpClient.PostAsync(API_Billing + "/" + Gid, contentData))
+        //        {
+        //            var apiResponse = await response.Content.ReadAsStringAsync();
+
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                data = JsonConvert.DeserializeObject<BillRes>(apiResponse);
+
+        //                var renderer = new IronPdf.ChromePdfRenderer();
+
+        //                using var pdf = renderer.RenderHtmlAsPdf(GenerateHtml(data));
+
+        //                // Set Content-Disposition header for download
+        //                Response.Headers["Content-Disposition"] = "attachment; filename=YourFileName.pdf";
+
+        //                // Set Content-Length header
+        //                var contentLength = pdf.BinaryData.Length;
+        //                Response.Headers["Content-Length"] = contentLength.ToString();
+
+        //                // Return the PDF as a file download
+        //                return File(pdf.BinaryData, "application/pdf", $@"{data.bill.Group_ID}.pdf");
+        //            }
+        //            else
+        //            {
+        //                var redirect = HttpContext.Session.GetString("Redirect");
+        //                var redirectID = HttpContext.Session.GetInt32("RedirectID");
+
+        //                return RedirectToAction("Index", redirect, new { id = redirectID });
+        //            }
+        //        }
+        //    }
+        //}
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         public async Task<IActionResult> GetHTMLPageAsPDF(string Gid)
         {
             BillRes data;
@@ -121,8 +171,13 @@ namespace Hotel_Management_MVC.Controllers
                         var contentLength = pdf.BinaryData.Length;
                         Response.Headers["Content-Length"] = contentLength.ToString();
 
-                        // Return the PDF as a file download
-                        return File(pdf.BinaryData, "application/pdf", $@"{data.bill.Group_ID}.pdf");
+                        // Send PDF as a file download
+                        var fileResult = File(pdf.BinaryData, "application/pdf", $@"{data.bill.Group_ID}.pdf");
+
+                        // Send PDF as an email attachment
+                        await SendPdfByEmail(data, pdf.BinaryData);
+
+                        return fileResult;
                     }
                     else
                     {
@@ -134,6 +189,40 @@ namespace Hotel_Management_MVC.Controllers
                 }
             }
         }
+
+        private async Task SendPdfByEmail(BillRes data, byte[] pdfData)
+        {
+            try
+            {
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("mazzking666@gmail.com"), 
+                    Subject = "Your Bill PDF",
+                    Body = "Please find attached your bill PDF.",
+                    IsBodyHtml = true,
+                };
+
+                mailMessage.To.Add(data.Email);
+
+                mailMessage.Attachments.Add(new Attachment(new MemoryStream(pdfData), $"{data.bill.Group_ID}.pdf", "application/pdf"));
+
+                using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+                {
+                    smtpClient.Port = 587;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential("mazzking666@gmail.com", "xctj naln sjnj gjsv"); 
+                    smtpClient.EnableSsl = true;
+
+                    await smtpClient.SendMailAsync(mailMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log, etc.)
+                Console.WriteLine($"Error sending email: {ex.Message}");
+            }
+        }
+
 
         public string GenerateHtml(BillRes model)
         {
@@ -187,6 +276,10 @@ namespace Hotel_Management_MVC.Controllers
 
             <div class='bill-container'>
                 <!-- Display Billing Information -->
+                <center>
+                    <h1>{model.HotelName}</h1>
+                    <h2>{model.HotelBranch}</h2>
+                </center>
                 <table>
                     <tr>
                         <th>Bill ID</th>
@@ -201,6 +294,7 @@ namespace Hotel_Management_MVC.Controllers
                 </table>
 
                 <!-- Display Additional Payment Information -->
+                <h4>Customer Name :-  {model.CustomerName}</h4>
                 <h3>Payment Information</h3>
                 <table>
                     <thead>

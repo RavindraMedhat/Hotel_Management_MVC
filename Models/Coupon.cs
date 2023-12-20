@@ -29,6 +29,11 @@ namespace Hotel_Management_MVC.Models
 
         public int Discount_Percentage { get; set; }
         [Required]
+        public bool Assign_Flag { get; set; }
+
+        public int Assign_UId { get; set; }
+
+        [Required]
         public bool Active_Flag { get; set; }
         [Required]
         public bool Delete_Flag { get; set; }

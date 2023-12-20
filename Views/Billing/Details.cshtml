@@ -50,6 +50,10 @@
         @*<h2>Invoice</h2>*@
 
         <!-- Display Billing Information -->
+        <center>
+            <h1>@Model.HotelName</h1>
+            <h2>@Model.HotelBranch</h2>
+        </center>
         <table>
             <tr>
                 <th>Bill ID</th>
@@ -65,6 +69,7 @@
         </table>
 
         <!-- Display Additional Payment Information -->
+        <h4>Customer Name :-  @Model.CustomerName</h4>
         <h3>Payment Information</h3>
         <table>
             <thead>

@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Hotel_Management_MVC.Models.Coupon>
+﻿@model IEnumerable<Hotel_Management_MVC.ViewModels.couponViewModelForIndex>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <h1>Index</h1>
 
@@ -14,16 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Coupon_ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hotel_ID)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Coupon_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coupon_Code)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Start_Date)
@@ -35,56 +27,39 @@
                 @Html.DisplayNameFor(model => model.Discount_Percentage)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Active_Flag)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Delete_Flag)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sortedfield)
+                @Html.DisplayNameFor(model => model.noOfAvailableCoupen)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coupon_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hotel_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coupon_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coupon_Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Start_Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Expiry_Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount_Percentage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active_Flag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Delete_Flag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sortedfield)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coupon_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Expiry_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount_Percentage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.noOfAvailableCoupen)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+                <td>
+                    <a class="btn btn-primary fas fa-share" style="color:whitesmoke" asp-action="SendEmail" asp-route-hid="@ViewBag.Hotel_ID" asp-route-Cname="@item.Coupon_Name" asp-route-NoOFCoupen="@item.noOfAvailableCoupen"  >share</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

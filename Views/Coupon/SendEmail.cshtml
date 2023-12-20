@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UserAndEmail>
+
+@{
+    ViewData["Title"] = "Select Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Select Customers</h1>
+<p>
+   select maximum @ViewBag.NoOFCoupen customers
+</p>
+<p style="color:red">
+    @ViewBag.Errormessage
+</p>
+<form asp-action="SendEmail" method="post">
+    <input type="hidden" name="NoOFCoupen" value="@ViewBag.NoOFCoupen" />
+    <input type="hidden" name="Cname" value="@ViewBag.Cname" />
+    <input type="hidden" name="hid" value="@ViewBag.hid" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Select
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Name)*@Name
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.Email)*@Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedCustomers" value="@customer.User_ID" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => customer.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => customer.Email)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit">Send Coupon</button>
+</form>
