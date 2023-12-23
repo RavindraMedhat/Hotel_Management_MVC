@@ -1,205 +1,4 @@
-﻿@*@model Hotel_Management_MVC.Models.LoginRequest
-
-    @{
-        ViewData["Title"] = "Login";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-    <h1>Login</h1>
-
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Login">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
-                    <label asp-for="EmailID" class="control-label"></label>
-                    <input asp-for="EmailID" class="form-control" />
-                    <span asp-validation-for="EmailID" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
-
-                <div class="form-group">
-                    <p>
-                        Don't have an account? <a asp-action="Create" asp-controller="UserRegistration">Register here</a>.
-                    </p>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }*@
-
-@*@model Hotel_Management_MVC.Models.LoginRequest
-
-    @{
-        ViewData["Title"] = "Login";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-    <style>
-        body {
-            background: linear-gradient(to right, #b4e7ff, #c0f4f9);
-            color: #333;
-        }
-
-        .login-container {
-            background: linear-gradient(to right, #ffffff, #e6f7ff);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-            height: 100%; /* Set height to 100% */
-        }
-
-            .login-container h1 {
-                color: #333;
-            }
-
-        .login-form {
-            margin-top: 20px;
-        }
-
-        .login-image {
-            max-width: 100%;
-            height: 100%; /* Set height to 100% */
-            border-radius: 10px;
-        }
-    </style>
-
-    <h1>Login</h1>
-
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <div class="login-container">
-                <form asp-action="Login" class="login-form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group">
-                        <label asp-for="EmailID" class="control-label"></label>
-                        <input asp-for="EmailID" class="form-control" />
-                        <span asp-validation-for="EmailID" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Login" class="btn btn-primary" />
-                    </div>
-
-                    <div class="form-group">
-                        <p>
-                            Don't have an account? <a asp-action="Create" asp-controller="UserRegistration">Register here</a>.
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <img src="~/Public/Images/istockphoto-1281150061-612x612.jpg" alt="Login Image" class="login-image" />
-        </div>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }*@
-
-@*@model Hotel_Management_MVC.Models.LoginRequest
-
-    @{
-        ViewData["Title"] = "Login";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-    <style>
-        body {
-            background: linear-gradient(to right, #b4e7ff, #c0f4f9);
-            color: #333;
-        }
-
-        .login-container {
-            background: linear-gradient(to right, #ffffff, #e6f7ff);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-            height: 100%; /* Set height to 100% */
-        }
-
-            .login-container h1 {
-                color: #333;
-            }
-
-        .login-form {
-            margin-top: 20px;
-        }
-
-        .login-image {
-            max-width: 100%;
-            height: auto; /* Set height to auto for responsiveness */
-            border-radius: 10px;
-        }
-    </style>
-
-    <h1>Login</h1>
-
-    <hr />
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="login-container">
-                <form asp-action="Login" class="login-form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group">
-                        <label asp-for="EmailID" class="control-label"></label>
-                        <input asp-for="EmailID" class="form-control" />
-                        <span asp-validation-for="EmailID" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="submit" value="Login" class="btn btn-primary" />
-                    </div>
-
-                    <div class="form-group">
-                        <p>
-                            Don't have an account? <a asp-action="Create" asp-controller="UserRegistration">Register here</a>.
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-sm-12">
-            <img src="~/Public/Images/istockphoto-1281150061-612x612.jpg" alt="Login Image" class="login-image" />
-        </div>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }*@
-@model Hotel_Management_MVC.Models.LoginRequest
+﻿@model Hotel_Management_MVC.Models.LoginRequest
 
 @{
     ViewData["Title"] = "Login";
@@ -207,26 +6,40 @@
 }
 
 <style>
-/*    body {
+    /*    body {
         background: linear-gradient(to right, #b4e7ff, #c0f4f9);
         color: #333;
     }*/
     body {
-        background-color: black; /* Set background color to black */
-        color: #fff; /* Set text color to white */
+        /*background: linear-gradient(to right, #b4e7ff, #c0f4f9);*/ /* Set background color to black */
+        background: #22c1c3; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fdbb2d, #22c1c3); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fdbb2d, #22c1c3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        /* Set background color to black */
+        color: #F0F0F0; /* Set text color to white */
+    }
+
+    .header-text {
+        color: #F0F0F0;
     }
 
     .login-container {
-        background: linear-gradient(to right, black, #e6f7ff);
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.36);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5.6px);
+        -webkit-backdrop-filter: blur(5.6px);
+        /* background-color: rgb(128 128 128 / 0.44); */
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 10px 25px 20px -20px #808080;
         height: 100%; /* Set height to 100% */
     }
 
-    .login-container h1 {
-        color: #333;
-    }
+        .login-container h1 {
+            color: #1b6ec2;
+        }
 
     .login-form {
         margin-top: 20px;
@@ -240,7 +53,7 @@
 </style>
 
 
-<h1>Login</h1>
+<h1 class="header-text">Login</h1>
 
 <hr />
 <div class="row">
@@ -251,13 +64,13 @@
 
                 <div class="form-group">
                     <label asp-for="EmailID" class="control-label"></label>
-                    <input asp-for="EmailID" class="form-control" />
+                    <input asp-for="EmailID" class="form-control"  />
                     <span asp-validation-for="EmailID" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
+                    <input type="password" asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
@@ -265,11 +78,11 @@
                     <input type="submit" value="Login" class="btn btn-primary" />
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <p>
                         Don't have an account? <a asp-action="Create" asp-controller="UserRegistration">Register here</a>.
                     </p>
-                </div>
+                </div>*@
             </form>
         </div>
     </div>

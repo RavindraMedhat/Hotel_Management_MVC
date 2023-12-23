@@ -10,16 +10,90 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<style>
+    .abc {
+        background: #22c1c3; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #fdbb2d, #22c1c3); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #fdbb2d, #22c1c3);
+    }
+
+    .footer {
+        background-color: #FFF;
+    }
+
+    .room-item {
+        background: #FFF;
+        margin-bottom: 30px;
+    }
+
+        .room-item img {
+            width: 100%;
+            height: 300px;
+            height: contain; /* This ensures that the aspect ratio of the image is maintained */
+            display: block; /* This removes extra space below the image */
+            filter: grayscale(100%);
+        }
+
+            .room-item img:hover {
+                filter: grayscale(0%);
+            }
+
+
+
+        .room-item .ri-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ebebeb;
+            border-top: none;
+            padding: 24px 24px 30px 28px;
+        }
+
+            .room-item .ri-text h4 {
+                color: #19191a;
+            }
+
+            .room-item .ri-text h3 {
+                color: #dfa974;
+                font-weight: 700;
+                margin-bottom: 14px;
+            }
+
+                .room-item .ri-text h3 span {
+                    font-family: "Cabin", sans-serif;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #19191a;
+                }
+
+            .room-item .ri-text table {
+                margin-bottom: 18px;
+            }
+
+                .room-item .ri-text table tbody tr td {
+                    font-size: 16px;
+                    color: #707079;
+                    line-height: 36px;
+                }
+
+                    .room-item .ri-text table tbody tr td.r-o {
+                        width: 125px;
+                    }
+
+            .room-item .ri-text .primary-btn {
+                color: #19191a;
+            }
+</style>
+<body class="abc">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hotel_Management_MVC</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Hotel" asp-action="Index">Hotel Management</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -28,7 +102,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                </div>
+                </div>*@
             </div>
             @if (httpContext.Session.GetString("Email") != null && httpContext.Session.GetString("Role") != null && httpContext.Session.GetString("Redirect") != null && httpContext.Session.GetString("RedirctID") != null )
             {

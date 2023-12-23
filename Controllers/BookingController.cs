@@ -1,4 +1,5 @@
 ﻿using Hotel_Management_MVC.Models;
+using Hotel_Management_MVC.ViewModel;
 using Hotel_Management_MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,15 +33,16 @@ namespace Hotel_Management_MVC.Controllers
         // GET: BookingController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            Booking booking;
+            BookingForDetail booking;
             using(var httpClient=new HttpClient())
             {
                 using(var response=await httpClient.GetAsync(API_Booking + "/" + id))
                 {
                     var apiresponse = await response.Content.ReadAsStringAsync();
-                    booking = JsonConvert.DeserializeObject<Booking>(apiresponse);
+                    booking = JsonConvert.DeserializeObject<BookingForDetail>(apiresponse);
                 }
             }
+
             return View(booking);
         }
 
@@ -68,9 +70,6 @@ namespace Hotel_Management_MVC.Controllers
                     booking.Check_Out_Date = DateTime.Parse(date).AddDays(1);
                 }
             }
-
-
-            
 
             return View(booking);
         }
