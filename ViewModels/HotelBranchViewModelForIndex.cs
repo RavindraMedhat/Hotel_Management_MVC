@@ -20,5 +20,7 @@ namespace Hotel_Management_MVC.ViewModels
         public string Hotel_Name { get; set; }
 
         public List<String> Image_URl { get; set; }
+        public string Address { get; set; }
+
     }
 }

@@ -2,6 +2,7 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
+    var httpContext = ViewContext.HttpContext;
     ViewBag.Title = "Hotels";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -13,11 +14,13 @@
             <a asp-action="Create" asp-route-id="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New</a>
         </p>
 
-        <a asp-controller="UserRegistration" asp-action="Createforhotelowner" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Owner</a>
-
-        <a asp-controller="Discount" asp-action="Index" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Discount</a>
-        <a asp-controller="Coupon" asp-action="Index" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Coupon</a>
-    </div>
+        @if (httpContext.Session.GetString("Role") == "SuperAdmin" )
+        {
+            <a asp-controller="UserRegistration" asp-action="Createforhotelowner" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Owner</a>
+        }
+            <a asp-controller="Discount" asp-action="Index" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Discount</a>
+            <a asp-controller="Coupon" asp-action="Index" asp-route-hid="@ViewBag.Hotel_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Coupon</a>
+        </div>
 </div>
 
 <div class="row" >

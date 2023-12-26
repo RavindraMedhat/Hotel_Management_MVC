@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Session;
 using MySqlX.XDevAPI;
+using Hotel_Management_MVC.ViewModels;
 
 namespace Hotel_Management_MVC.Controllers
 {
@@ -354,7 +355,68 @@ namespace Hotel_Management_MVC.Controllers
         // POST: UserRegistrationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(UserRegistrationCreateModel collection)
+        //public async Task<ActionResult> Create(UserRegistrationCreateModel collection)
+        //{
+        //    try
+        //    {
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            using (var form = new MultipartFormDataContent())
+        //            {
+        //                // Add your model properties as content fields
+        //                form.Add(new StringContent(collection.First_Name), "First_Name");
+        //                form.Add(new StringContent(collection.Last_Name), "Last_Name");
+        //                form.Add(new StringContent(collection.Email), "Email");
+        //                form.Add(new StringContent(collection.ConatactNo), "ConatactNo");
+        //                form.Add(new StringContent(collection.DOB.ToString()), "DOB");
+        //                form.Add(new StringContent(collection.Gender), "Gender");
+        //                form.Add(new StringContent(collection.State), "State");
+        //                form.Add(new StringContent(collection.Active_Flag.ToString()), "Active_Flag");
+        //                form.Add(new StringContent(collection.Delete_Flag.ToString()), "Delete_Flag");
+        //                form.Add(new StringContent(collection.sortedfield.ToString()), "sortedfield");
+
+        //                // Add image files
+        //                if (collection.Profile_Image != null)
+        //                {
+
+
+        //                    var streamContent = new StreamContent(collection.Profile_Image.OpenReadStream());
+        //                    streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+        //                    {
+        //                        Name = "Profile_Image",
+        //                        FileName = collection.Profile_Image.FileName
+        //                    };
+        //                    form.Add(streamContent, "Profile_Image", collection.Profile_Image.FileName);
+        //                }
+
+
+        //                // Send the request
+        //                using (var response = await httpClient.PostAsync(API_UserRegistration, form))
+        //                {
+        //                    if (response.IsSuccessStatusCode)
+        //                    {
+        //                        // Request was successful, handle the response here
+        //                        var responseBody = await response.Content.ReadAsStringAsync();
+        //                        Console.WriteLine("Response: " + responseBody);
+        //                    }
+        //                    else
+        //                    {
+        //                        // Handle an error response
+        //                        Console.WriteLine("Error: " + response.StatusCode);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        return RedirectToAction("login","userregistration");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        public async Task<ActionResult> Create(UserRegistrationCreateModelForCustomer collection)
         {
             try
             {
@@ -366,6 +428,7 @@ namespace Hotel_Management_MVC.Controllers
                         form.Add(new StringContent(collection.First_Name), "First_Name");
                         form.Add(new StringContent(collection.Last_Name), "Last_Name");
                         form.Add(new StringContent(collection.Email), "Email");
+                        form.Add(new StringContent(collection.Password), "Password");
                         form.Add(new StringContent(collection.ConatactNo), "ConatactNo");
                         form.Add(new StringContent(collection.DOB.ToString()), "DOB");
                         form.Add(new StringContent(collection.Gender), "Gender");
@@ -407,7 +470,14 @@ namespace Hotel_Management_MVC.Controllers
                     }
                 }
 
-                return RedirectToAction("login","userregistration");
+                //return RedirectToAction("login", "userregistration");
+
+                
+                var Redirect = HttpContext.Session.GetString("Redirect");
+                var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+
+                return RedirectToAction("Index", Redirect, new { id = RedirctID });
+                
             }
             catch
             {

@@ -34,6 +34,7 @@ namespace Hotel_Management_MVC.Controllers
             var Role = HttpContext.Session.GetString("Role");
             var Redirect = HttpContext.Session.GetString("Redirect");
             var RedirctID = HttpContext.Session.GetInt32("RedirctID");
+
             if (Email == null || Role == null || Redirect == null || RedirctID == null)
             {
                 return RedirectToAction("login", "UserRegistration");
@@ -55,12 +56,27 @@ namespace Hotel_Management_MVC.Controllers
                     HotelBranchs = JsonConvert.DeserializeObject<List<HotelBranchViewModelForIndex>>(apiresponse);
                 }
             }
-            ViewBag.HotelName = HotelName;
-            if(HotelName == null)
-            {
-                ViewBag.HotelName = HotelBranchs[0].Hotel_Name;
 
+            HotelTB Hotel = new HotelTB();
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var resonse = await httpClient.GetAsync(API_HOTEL + "/" + id))
+                {
+                    var apiresponse = await resonse.Content.ReadAsStringAsync();
+                    Hotel = JsonConvert.DeserializeObject<HotelTB>(apiresponse);
+                }
             }
+
+
+            ViewBag.HotelName = Hotel.Hotel_Name;
+
+            //ViewBag.HotelName = HotelName;
+            //if(HotelName == null)
+            //{
+            //    ViewBag.HotelName = HotelBranchs[0].Hotel_Name;
+
+            //}
             ViewBag.Hotel_ID = id;
 
             return View(HotelBranchs);

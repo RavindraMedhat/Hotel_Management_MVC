@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<RoomTBForIndex>
 
 @{
+        var httpContext = ViewContext.HttpContext;
     ViewBag.Title = "Index";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -10,10 +11,14 @@
         <p>
             <a asp-action="Create" asp-route-id="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Room</a>
         </p>
+        @if (httpContext.Session.GetString("Role") == "HotelOwner")
+            {
 
-        <a asp-controller="UserRegistration" asp-action="CreateforhotelManager" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Manager</a>
+
+            <a asp-controller="UserRegistration" asp-action="CreateforhotelManager" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Manager</a>
 
         <a asp-controller="UserRegistration" asp-action="CreateforhotelReceptionist" asp-route-bid="@ViewBag.Branch_ID" class="btn btn-primary"><i class="fas fa-plus"></i> Add Hotel Receptionist</a>
+            }
     </div>
 </div>
 
