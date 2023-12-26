@@ -235,45 +235,49 @@ namespace Hotel_Management_MVC.Controllers
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>Generate Bill</title>
             <style>
+                .abc{{
+                        background: #22c1c3;  /* fallback for old browsers */
+                        background: -webkit-linear-gradient(to right, #fdbb2d, #22c1c3);  /* Chrome 10-25, Safari 5.1-6 */
+                        background: linear-gradient(to right, #fdbb2d, #22c1c3);
+                    }}
                 .bill-container {{
-                    max-width: 600px;
-                    margin: 0 auto;
-                }}
+            max - width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.36);
+            padding: 3%;
+           
+        }}
 
-                table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-bottom: 20px;
-                }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }}
 
-                th, td {{
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    text-align: left;
-                }}
+        th, td {{
+            border: 2px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }}
 
-                th {{
-                    background-color: #f2f2f2;
-                }}
 
-                h2, h3 {{
-                    color: #333;
-                }}
+        h2, h3 {{
+            color: #333;
+        }}
 
-                .table-header {{
-                    background-color: #4CAF50;
-                    color: black;
-                }}
+        .table-header {{
+            color: black;
+        }}
 
-                .footer {{
-                    margin-top: 20px;
-                    font-size: 12px;
-                    color: #666;
-                }}
+        .footer {{
+            margin - top: 20px;
+            font-size: 12px;
+            color: #666;
+        }}
             </style>
         </head>
-        <body>
-
+        <body class='abc'>
+                <br><br><br>
             <div class='bill-container'>
                 <!-- Display Billing Information -->
                 <center>
@@ -317,7 +321,7 @@ namespace Hotel_Management_MVC.Controllers
 
             // Continue building the HTML string
             html += $@"
-<tr><td>-----------------------------------------------------------------------</td><td>---------------------------------</td></tr>
+<tr><td>------------------------------------------------------------------</td><td>-------------------------------</td></tr>
 
                 <tr>
                     <th>Total Amount</th>
